@@ -56,6 +56,20 @@ for lib in backoff.sh gate.sh jsonl.sh stagnation.sh; do
   assert "lib: $lib" "[ -f '${DIST_DIR}/claude/ralph-loop/lib/${lib}' ]"
 done
 
+# Agents
+echo ""
+echo "[Claude agents 검증]"
+for agent in architect build-error-resolver code-reviewer doc-updater e2e-runner planner refactor-cleaner security-reviewer tdd-guide; do
+  assert "에이전트: $agent" "[ -f '${DIST_DIR}/claude/agents/${agent}.md' ]"
+done
+
+# Commands
+echo ""
+echo "[Claude commands 검증]"
+for cmd in build-fix code-review e2e plan refactor-clean tdd test-coverage update-codemaps update-docs; do
+  assert "커맨드: $cmd" "[ -f '${DIST_DIR}/claude/commands/${cmd}.md' ]"
+done
+
 # ── Codex dist 검증 ──
 echo ""
 echo "[Codex dist 검증]"

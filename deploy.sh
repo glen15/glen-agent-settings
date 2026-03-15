@@ -60,7 +60,7 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
   # 백업
   if [ "$DRY_RUN" = false ]; then
     mkdir -p "$BACKUP_DIR"
-    for target in skills hooks ralph-loop; do
+    for target in skills hooks ralph-loop agents commands; do
       if [ -d "${CLAUDE_DIR}/${target}" ]; then
         cp -r "${CLAUDE_DIR}/${target}" "${BACKUP_DIR}/${target}" 2>/dev/null || true
       fi
@@ -69,7 +69,7 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
   fi
 
   # 스킬 배포
-  echo "  [1/5] 스킬..."
+  echo "  [1/7] 스킬..."
   for skill_dir in "${DIST_DIR}/claude/skills/"*/; do
     skill_name=$(basename "$skill_dir")
     mkdir -p "${CLAUDE_DIR}/skills/${skill_name}"
@@ -79,7 +79,7 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
   do_copy "${DIST_DIR}/claude/skills/harness.md" "${CLAUDE_DIR}/skills/harness.md" 2>/dev/null || true
 
   # Hooks 배포
-  echo "  [2/5] Hooks..."
+  echo "  [2/7] Hooks..."
   for hook_file in "${DIST_DIR}/claude/hooks/"*.sh; do
     [ -f "$hook_file" ] && do_copy "$hook_file" "${CLAUDE_DIR}/hooks/$(basename "$hook_file")"
   done
@@ -88,8 +88,22 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
     [ -f "$f" ] && do_copy "$f" "${CLAUDE_DIR}/hooks/refine/$(basename "$f")"
   done
 
+  # Agents 배포
+  echo "  [3/7] Agents..."
+  mkdir -p "${CLAUDE_DIR}/agents"
+  for f in "${DIST_DIR}/claude/agents/"*.md; do
+    [ -f "$f" ] && do_copy "$f" "${CLAUDE_DIR}/agents/$(basename "$f")"
+  done
+
+  # Commands 배포
+  echo "  [4/7] Commands..."
+  mkdir -p "${CLAUDE_DIR}/commands"
+  for f in "${DIST_DIR}/claude/commands/"*.md; do
+    [ -f "$f" ] && do_copy "$f" "${CLAUDE_DIR}/commands/$(basename "$f")"
+  done
+
   # Ralph Loop 배포
-  echo "  [3/5] Ralph Loop..."
+  echo "  [5/7] Ralph Loop..."
   mkdir -p "${CLAUDE_DIR}/ralph-loop/lib" "${CLAUDE_DIR}/ralph-loop/adapters" \
            "${CLAUDE_DIR}/ralph-loop/prompts" "${CLAUDE_DIR}/ralph-loop/templates"
   do_copy "${DIST_DIR}/claude/ralph-loop/ralph-loop.sh" "${CLAUDE_DIR}/ralph-loop/ralph-loop.sh"
@@ -113,11 +127,11 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
   fi
 
   # CLAUDE.md 배포
-  echo "  [4/5] CLAUDE.md..."
+  echo "  [6/7] CLAUDE.md..."
   do_copy "${DIST_DIR}/claude/CLAUDE.md" "${CLAUDE_DIR}/CLAUDE.md"
 
   # settings.json 병합 (기존 설정 보존하며 업데이트)
-  echo "  [5/5] settings.json..."
+  echo "  [7/7] settings.json..."
   if [ "$DRY_RUN" = false ] && [ -f "${CLAUDE_DIR}/settings.json" ]; then
     # 기존 settings.json 백업
     cp "${CLAUDE_DIR}/settings.json" "${BACKUP_DIR}/settings.json"
