@@ -1,0 +1,131 @@
+{
+  "env": {
+    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "OTEL_METRICS_EXPORTER": "otlp",
+    "OTEL_LOGS_EXPORTER": "otlp",
+    "OTEL_TRACES_EXPORTER": "otlp",
+    "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
+    "OTEL_EXPORTER_OTLP_ENDPOINT": "http://43.201.162.58:4317",
+    "OTEL_METRIC_EXPORT_INTERVAL": "60000",
+    "OTEL_LOGS_EXPORT_INTERVAL": "5000",
+    "OTEL_METRICS_INCLUDE_SESSION_ID": "false",
+    "OTEL_SERVICE_NAME": "claude-code-glen.lee",
+    "OTEL_RESOURCE_ATTRIBUTES": "team.id=nxtcloud,user.id=glen.lee@nxtcloud.kr,user.name=glen.lee"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(ln:*)",
+      "Bash(tree:*)",
+      "Bash(chmod:*)",
+      "Bash(ls:*)"
+    ]
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/refine/prompt-init.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "#!/bin/bash\n# [DISABLED] git push 차단 훅 — 재활성화: 아래 두 줄 제거\ninput=$(cat)\nprintf '%s' \"$input\"\nexit 0\ncmd=$(printf '%s' \"$input\" | jq -r '.tool_input.command // \"\"')\nif printf '%s' \"$cmd\" | grep -qE 'git\\s.*push'; then\n  echo '[훅] 차단: git push는 완전 차단되어 있습니다' >&2\n  exit 2\nfi\nprintf '%s' \"$input\""
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/refine/commit-check.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "#!/bin/bash\ninput=$(cat)\ncmd=$(printf '%s' \"$input\" | jq -r '.tool_input.command // \"\"')\nif printf '%s' \"$cmd\" | grep -qE 'gh pr create'; then\n  output=$(printf '%s' \"$input\" | jq -r '.tool_output.stdout // \"\"')\n  pr_url=$(printf '%s' \"$output\" | grep -oE 'https://github.com/[^/]+/[^/]+/pull/[0-9]+')\n  if [ -n \"$pr_url\" ]; then\n    echo \"[훅] PR 생성됨: $pr_url\" >&2\n    echo '[훅] GitHub Actions 상태 확인 중...' >&2\n  fi\nfi\nprintf '%s' \"$input\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "#!/bin/bash\ninput=$(cat)\nfile_path=$(printf '%s' \"$input\" | jq -r '.tool_input.file_path // \"\"')\nif [[ ! \"$file_path\" =~ \\.(ts|tsx|js|jsx)$ ]]; then\n  printf '%s' \"$input\"\n  exit 0\nfi\nif [ -n \"$file_path\" ] && [ -f \"$file_path\" ]; then\n  if command -v prettier >/dev/null 2>&1; then\n    prettier --write \"$file_path\" 2>&1 | head -5 >&2\n  fi\nfi\nif [ -n \"$file_path\" ] && [ -f \"$file_path\" ]; then\n  console_logs=$(grep -n 'console\\.log' \"$file_path\" 2>/dev/null || true)\n  if [ -n \"$console_logs\" ]; then\n    echo \"[훅] 경고: console.log 발견 - $file_path\" >&2\n    echo '[훅] 커밋 전 console.log를 제거하세요' >&2\n  fi\nfi\nprintf '%s' \"$input\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/stop-console-check.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/refine/stop-loop.sh",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/debug-stop-hook.sh stop",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/post-task-commit-check.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/glen/.claude/hooks/refine/hud-wrapper.sh"
+  },
+  "enabledPlugins": {
+    "claude-hud@claude-hud": true,
+    "notion-workspace-plugin@notion-plugin-marketplace": true,
+    "swift-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": false,
+    "slack@claude-plugins-official": true
+  },
+  "language": "Korean",
+  "effortLevel": "high",
+  "mcpServers": {}
+}
