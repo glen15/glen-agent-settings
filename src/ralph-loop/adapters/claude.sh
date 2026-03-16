@@ -11,7 +11,8 @@ run_agent() {
   local max_turns="$3"
   local model="$4"
 
-  local cmd_args=("-p" "--max-turns" "$max_turns" "--output-format" "json")
+  # 무인 루프 전용 — 대화형 사용 금지
+  local cmd_args=("-p" "--max-turns" "$max_turns" "--output-format" "json" "--permission-mode" "bypassPermissions")
 
   if [ -n "$model" ]; then
     cmd_args+=("--model" "$model")

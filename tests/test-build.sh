@@ -55,6 +55,7 @@ assert "codex 어댑터 존재" "[ -f '${DIST_DIR}/claude/ralph-loop/adapters/co
 for lib in backoff.sh gate.sh jsonl.sh stagnation.sh; do
   assert "lib: $lib" "[ -f '${DIST_DIR}/claude/ralph-loop/lib/${lib}' ]"
 done
+assert "failures/logger.sh 존재" "[ -f '${DIST_DIR}/claude/ralph-loop/failures/logger.sh' ]"
 
 # Agents
 echo ""

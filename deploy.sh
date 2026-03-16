@@ -105,7 +105,8 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
   # Ralph Loop 배포
   echo "  [5/7] Ralph Loop..."
   mkdir -p "${CLAUDE_DIR}/ralph-loop/lib" "${CLAUDE_DIR}/ralph-loop/adapters" \
-           "${CLAUDE_DIR}/ralph-loop/prompts" "${CLAUDE_DIR}/ralph-loop/templates"
+           "${CLAUDE_DIR}/ralph-loop/prompts" "${CLAUDE_DIR}/ralph-loop/templates" \
+           "${CLAUDE_DIR}/ralph-loop/failures"
   do_copy "${DIST_DIR}/claude/ralph-loop/ralph-loop.sh" "${CLAUDE_DIR}/ralph-loop/ralph-loop.sh"
   for f in "${DIST_DIR}/claude/ralph-loop/lib/"*.sh; do
     do_copy "$f" "${CLAUDE_DIR}/ralph-loop/lib/$(basename "$f")"
@@ -118,6 +119,9 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
   done
   for f in "${DIST_DIR}/claude/ralph-loop/templates/"*; do
     do_copy "$f" "${CLAUDE_DIR}/ralph-loop/templates/$(basename "$f")"
+  done
+  for f in "${DIST_DIR}/claude/ralph-loop/failures/"*; do
+    [ -f "$f" ] && do_copy "$f" "${CLAUDE_DIR}/ralph-loop/failures/$(basename "$f")"
   done
   # ~/bin 심볼릭 링크
   if [ "$DRY_RUN" = false ]; then

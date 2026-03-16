@@ -9,16 +9,22 @@ if [ -z "${provider_error_pattern:-}" ]; then
   provider_error_pattern='5[0-9]{2}|internal.?server|service.?unavailable|bad.?gateway|overloaded'
 fi
 
-# rate limit 키워드 감지
+# rate limit 감지 (JSON 구조 필드에서만, 파일 경로 전달)
 detect_rate_limit() {
-  local output="$1"
-  echo "$output" | grep -qiE "$rate_limit_pattern"
+  local output_file="$1"
+  local is_error
+  is_error=$(jq -r '.is_error // false' "$output_file" 2>/dev/null)
+  [ "$is_error" != "true" ] && return 1
+  jq -r '.subtype // ""' "$output_file" 2>/dev/null | grep -qiE "$rate_limit_pattern"
 }
 
-# provider 장애 감지
+# provider 장애 감지 (JSON 에러 필드 기반, 파일 경로 전달)
 detect_provider_error() {
-  local output="$1"
-  echo "$output" | grep -qiE "$provider_error_pattern"
+  local output_file="$1"
+  local is_error
+  is_error=$(jq -r '.is_error // false' "$output_file" 2>/dev/null)
+  [ "$is_error" != "true" ] && return 1
+  jq -r '.subtype // ""' "$output_file" 2>/dev/null | grep -qiE "$provider_error_pattern"
 }
 
 # exponential backoff 대기

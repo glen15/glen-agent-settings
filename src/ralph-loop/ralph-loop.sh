@@ -26,6 +26,7 @@ source "${SCRIPT_DIR}/lib/backoff.sh"
 source "${SCRIPT_DIR}/lib/stagnation.sh"
 source "${SCRIPT_DIR}/lib/gate.sh"
 source "${SCRIPT_DIR}/lib/jsonl.sh"
+source "${SCRIPT_DIR}/failures/logger.sh"
 
 # ── 기본값 ──
 PROJECT_DIR=""
@@ -190,6 +191,10 @@ run_ai_agent() {
     "input_tokens=${input_tokens}" \
     "output_tokens=${output_tokens}"
 
+  # 실패 자동 기록
+  failure_analyze_claude_output "$output_file" \
+    "ralph-loop/$(basename "$prompt_file" .md)" "$PROJECT_DIR"
+
   return $exit_code
 }
 
@@ -236,12 +241,16 @@ run_coding_loop() {
     emit_jsonl "ITERATION_START" "반복 #${iteration}/${MAX_ITERATIONS}" "iteration=${iteration}"
     echo "[$(date '+%H:%M:%S')] === 반복 #${iteration}/${MAX_ITERATIONS} ===" >&2
 
-    # ── 코딩 에이전트 실행 ──
-    run_ai_agent "${SCRIPT_DIR}/prompts/coding.md" "$iter_log"
+    # ── 코딩 프롬프트 + 실패 기록 주입 ──
+    local augmented_prompt="${LOG_DIR}/coding-augmented.md"
+    cat "${SCRIPT_DIR}/prompts/coding.md" > "$augmented_prompt"
+    failure_inject_prompt 5 "$PROJECT_DIR" >> "$augmented_prompt"
+
+    run_ai_agent "$augmented_prompt" "$iter_log"
     local exit_code=$?
 
     # ── rate limit 감지 ──
-    if [ -f "$iter_log" ] && detect_rate_limit "$(cat "$iter_log")"; then
+    if [ -f "$iter_log" ] && detect_rate_limit "$iter_log"; then
       backoff_attempt=$((backoff_attempt + 1))
       emit_jsonl "RATE_LIMIT" "Rate limit 감지" "attempt=${backoff_attempt}"
       wait_with_backoff "$backoff_attempt" "${LOG_DIR}/loop.log"
@@ -250,7 +259,7 @@ run_coding_loop() {
     fi
 
     # ── provider 장애 감지 ──
-    if [ -f "$iter_log" ] && detect_provider_error "$(cat "$iter_log")"; then
+    if [ -f "$iter_log" ] && detect_provider_error "$iter_log"; then
       emit_jsonl "PROVIDER_ERROR" "Provider 장애 감지. 10분 대기"
       sleep 600
       iteration=$((iteration - 1))
@@ -337,6 +346,17 @@ generate_summary() {
       echo "- 실패: $failing"
     else
       echo "(prd.json 없음)"
+    fi
+
+    echo ""
+    echo "## 실패 기록"
+    local fail_count
+    fail_count=$(failure_count "all" "$PROJECT_DIR")
+    echo "- 누적 실패: ${fail_count}건"
+    echo "- 낭비 비용: \$$(failure_total_cost "all" "$PROJECT_DIR")"
+    if [ "$fail_count" -gt 0 ] 2>/dev/null; then
+      echo ""
+      failure_recent "all" 5 "$PROJECT_DIR"
     fi
 
     echo ""
