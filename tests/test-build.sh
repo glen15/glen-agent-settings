@@ -40,7 +40,7 @@ assert "CLAUDE.md 존재" "[ -f '${DIST_DIR}/claude/CLAUDE.md' ]"
 assert "settings.json 존재" "[ -f '${DIST_DIR}/claude/settings.json' ]"
 
 # Hooks
-for hook in debug-stop-hook.sh post-task-commit-check.sh stop-console-check.sh; do
+for hook in auto-test.sh debug-stop-hook.sh post-task-commit-check.sh secret-scanner.sh stop-console-check.sh; do
   assert "root hook: $hook" "[ -f '${DIST_DIR}/claude/hooks/${hook}' ]"
 done
 for hook in commit-check.sh detect-stagnation.sh hud-wrapper.sh lib.sh prompt-init.sh stop-loop.sh calc-cost.py; do

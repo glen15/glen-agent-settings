@@ -53,6 +53,26 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/secret-scanner.sh",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/secret-scanner.sh",
+            "timeout": 10
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -71,6 +91,26 @@
           {
             "type": "command",
             "command": "#!/bin/bash\ninput=$(cat)\nfile_path=$(printf '%s' \"$input\" | jq -r '.tool_input.file_path // \"\"')\nif [[ ! \"$file_path\" =~ \\.(ts|tsx|js|jsx)$ ]]; then\n  printf '%s' \"$input\"\n  exit 0\nfi\nif [ -n \"$file_path\" ] && [ -f \"$file_path\" ]; then\n  if command -v prettier >/dev/null 2>&1; then\n    prettier --write \"$file_path\" 2>&1 | head -5 >&2\n  fi\nfi\nif [ -n \"$file_path\" ] && [ -f \"$file_path\" ]; then\n  console_logs=$(grep -n 'console\\.log' \"$file_path\" 2>/dev/null || true)\n  if [ -n \"$console_logs\" ]; then\n    echo \"[훅] 경고: console.log 발견 - $file_path\" >&2\n    echo '[훅] 커밋 전 console.log를 제거하세요' >&2\n  fi\nfi\nprintf '%s' \"$input\""
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/auto-test.sh",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/auto-test.sh",
+            "timeout": 30
           }
         ]
       }
