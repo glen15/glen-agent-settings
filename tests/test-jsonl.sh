@@ -4,8 +4,8 @@
 # jsonl.sh가 필요로 하는 전역 변수 설정
 PROJECT_DIR="${PROJECT_DIR}"
 BRANCH="test-branch"
-PRD_FILE="/tmp/test-prd.json"
 MODEL="sonnet"
+SCOPE="all"
 MAX_ITERATIONS=10
 MAX_TURNS=5
 

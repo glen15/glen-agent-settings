@@ -1,5 +1,0 @@
-=== Ralph Loop 실행 로그 ===
-시작: TIMESTAMP
-에이전트: claude-code
-브랜치: BRANCH_NAME
-

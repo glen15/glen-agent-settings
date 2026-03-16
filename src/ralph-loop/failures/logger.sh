@@ -107,10 +107,10 @@ failure_recent() {
   if [ "$scope" = "all" ]; then
     # 글로벌 + 프로젝트 합쳐서 시간순 정렬
     {
-      [ -f "$FAILURES_GLOBAL_INDEX" ] && cat "$FAILURES_GLOBAL_INDEX"
+      [ -f "$FAILURES_GLOBAL_INDEX" ] && cat "$FAILURES_GLOBAL_INDEX" || true
       local proj_index
       proj_index=$(_failure_index "project" "$project")
-      [ -f "$proj_index" ] && cat "$proj_index"
+      [ -f "$proj_index" ] && cat "$proj_index" || true
     } | jq -s 'sort_by(.ts)' | jq -r '.[] | [.ts, .scope, .type, .severity, .details] | join(" | ")' | tail -n "$count"
   else
     local index

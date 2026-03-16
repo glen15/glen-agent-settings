@@ -52,7 +52,7 @@ assert "ralph-loop.sh 존재" "[ -f '${DIST_DIR}/claude/ralph-loop/ralph-loop.sh
 assert "ralph-loop.sh 실행 가능" "[ -x '${DIST_DIR}/claude/ralph-loop/ralph-loop.sh' ]"
 assert "claude 어댑터 존재" "[ -f '${DIST_DIR}/claude/ralph-loop/adapters/claude.sh' ]"
 assert "codex 어댑터 존재" "[ -f '${DIST_DIR}/claude/ralph-loop/adapters/codex.sh' ]"
-for lib in backoff.sh gate.sh jsonl.sh stagnation.sh; do
+for lib in backoff.sh gate.sh jsonl.sh stagnation.sh convergence.sh; do
   assert "lib: $lib" "[ -f '${DIST_DIR}/claude/ralph-loop/lib/${lib}' ]"
 done
 assert "failures/logger.sh 존재" "[ -f '${DIST_DIR}/claude/ralph-loop/failures/logger.sh' ]"

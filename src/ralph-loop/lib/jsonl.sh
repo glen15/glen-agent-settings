@@ -67,8 +67,8 @@ save_session() {
     --arg id "ralph-$(date +%Y%m%d-%H%M%S)" \
     --arg project "$PROJECT_DIR" \
     --arg branch "$BRANCH" \
-    --arg prd "$PRD_FILE" \
     --arg model "$MODEL" \
+    --arg scope "${SCOPE:-all}" \
     --argjson max_iterations "$MAX_ITERATIONS" \
     --argjson max_turns "$MAX_TURNS" \
     --arg started_at "$(date -u '+%Y-%m-%dT%H:%M:%SZ')" \
@@ -76,8 +76,8 @@ save_session() {
       session_id: $id,
       project_dir: $project,
       branch: $branch,
-      prd_file: $prd,
       model: $model,
+      scope: $scope,
       max_iterations: $max_iterations,
       max_turns: $max_turns,
       started_at: $started_at,
@@ -97,8 +97,8 @@ load_session() {
   # 세션 설정 복원
   PROJECT_DIR=$(jq -r '.project_dir' "$session_file")
   BRANCH=$(jq -r '.branch' "$session_file")
-  PRD_FILE=$(jq -r '.prd_file' "$session_file")
   MODEL=$(jq -r '.model // ""' "$session_file")
+  SCOPE=$(jq -r '.scope // "all"' "$session_file")
   MAX_ITERATIONS=$(jq -r '.max_iterations' "$session_file")
   MAX_TURNS=$(jq -r '.max_turns' "$session_file")
 }

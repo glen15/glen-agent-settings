@@ -47,32 +47,16 @@ run_gate_1() {
   return 0
 }
 
-# prd.json의 기능 상태 업데이트
-update_prd_status() {
-  local prd_file="$1"
-  local feature_id="$2"
-  local new_status="$3"
+# scope-state.json에서 수렴 완료 여부 확인
+check_convergence_state() {
+  local state_file="$1"
+  local threshold="${2:-2}"
 
-  if [ ! -f "$prd_file" ]; then
+  if [ ! -f "$state_file" ]; then
     return 1
   fi
 
-  local tmp="${prd_file}.tmp"
-  jq --arg id "$feature_id" --arg status "$new_status" \
-    '(.features[] | select(.id == $id)).status = $status' \
-    "$prd_file" > "$tmp" && mv "$tmp" "$prd_file"
-}
-
-# prd.json에서 모든 기능이 통과했는지 확인
-check_all_passing() {
-  local prd_file="$1"
-
-  if [ ! -f "$prd_file" ]; then
-    return 1
-  fi
-
-  local failing_count
-  failing_count=$(jq '[.features[] | select(.status != "passing")] | length' "$prd_file" 2>/dev/null || echo "1")
-
-  [ "$failing_count" = "0" ]
+  local zero_rounds
+  zero_rounds=$(jq '.consecutive_zero_rounds' "$state_file" 2>/dev/null || echo "0")
+  [ "$zero_rounds" -ge "$threshold" ]
 }

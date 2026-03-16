@@ -48,9 +48,9 @@ glen-agent-settings/
 │   │   └── refine/         # Refine Loop 전용 훅
 │   ├── ralph-loop/         # 밤샘 무인 코딩 오케스트레이터
 │   │   ├── adapters/       # claude.sh, codex.sh
-│   │   ├── lib/            # backoff, stagnation, gate, jsonl
-│   │   ├── prompts/        # init.md, coding.md
-│   │   └── templates/      # prd.json, progress.txt
+│   │   ├── lib/            # backoff, stagnation, gate, jsonl, convergence
+│   │   ├── prompts/        # converge.md
+│   │   └── templates/      # scope-state.json, exception.md
 │   ├── guides/             # CLAUDE.md, harness.md
 │   └── settings.json       # Claude Code 설정
 ├── overlays/               # 플랫폼별 오버라이드 (확장용)
