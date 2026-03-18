@@ -1,28 +1,12 @@
-# 리팩토링 및 정리
+---
+description: "죽은 코드 정리, 미사용 export/의존성 제거 시 사용. knip, depcheck, ts-prune으로 분석 후 안전한 삭제만 수행. 삭제 전후 테스트 필수."
+---
 
-테스트 검증을 통해 안전하게 죽은 코드 식별 및 제거:
+# Refactor Clean
 
-1. 죽은 코드 분석 도구 실행:
-   - knip: 미사용 exports 및 파일 찾기
-   - depcheck: 미사용 의존성 찾기
-   - ts-prune: 미사용 TypeScript exports 찾기
+refactor-cleaner 에이전트를 호출하여 죽은 코드를 안전하게 제거한다.
 
-2. .reports/dead-code-analysis.md에 종합 보고서 생성
-
-3. 발견 사항을 심각도별로 분류:
-   - SAFE: 테스트 파일, 미사용 유틸리티
-   - CAUTION: API 라우트, 컴포넌트
-   - DANGER: 설정 파일, 메인 진입점
-
-4. 안전한 삭제만 제안
-
-5. 각 삭제 전:
-   - 전체 테스트 스위트 실행
-   - 테스트 통과 확인
-   - 변경 적용
-   - 테스트 재실행
-   - 테스트 실패 시 롤백
-
-6. 정리된 항목 요약 표시
-
-테스트를 먼저 실행하지 않고 코드를 절대 삭제하지 말 것!
+1. 분석 도구 실행 (knip, depcheck, ts-prune)
+2. 심각도 분류 (SAFE/CAUTION/DANGER)
+3. SAFE 항목만 자동 삭제, CAUTION은 사용자 확인
+4. 삭제 전후 테스트 실행 → 실패 시 롤백

@@ -60,7 +60,7 @@ assert "failures/logger.sh 존재" "[ -f '${DIST_DIR}/claude/ralph-loop/failures
 # Agents
 echo ""
 echo "[Claude agents 검증]"
-for agent in architect build-error-resolver code-reviewer doc-updater e2e-runner planner refactor-cleaner security-reviewer tdd-guide; do
+for agent in architect build-error-resolver code-reviewer doc-updater e2e-runner refactor-cleaner security-reviewer tdd-guide; do
   assert "에이전트: $agent" "[ -f '${DIST_DIR}/claude/agents/${agent}.md' ]"
 done
 

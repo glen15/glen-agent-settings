@@ -1,31 +1,12 @@
-# 문서 업데이트
+---
+description: "package.json scripts나 환경변수가 변경된 후 사용. 단일 소스(package.json, .env.example)에서 문서를 동기화. CONTRIB.md, RUNBOOK.md 생성/갱신."
+---
 
-단일 소스에서 문서 동기화:
+# Update Docs
 
-1. package.json scripts 섹션 읽기
-   - 스크립트 참조 테이블 생성
-   - 주석에서 설명 포함
+doc-updater 에이전트를 호출하여 문서를 동기화한다.
 
-2. .env.example 읽기
-   - 모든 환경 변수 추출
-   - 목적 및 형식 문서화
-
-3. docs/CONTRIB.md 생성:
-   - 개발 워크플로우
-   - 사용 가능한 스크립트
-   - 환경 설정
-   - 테스트 절차
-
-4. docs/RUNBOOK.md 생성:
-   - 배포 절차
-   - 모니터링 및 알림
-   - 일반적인 이슈 및 수정
-   - 롤백 절차
-
-5. 오래된 문서 식별:
-   - 90일 이상 수정되지 않은 문서 찾기
-   - 수동 검토용 목록 작성
-
-6. 차이점 요약 표시
-
-단일 소스: package.json 및 .env.example
+1. package.json scripts → 스크립트 참조 테이블
+2. .env.example → 환경변수 문서
+3. docs/CONTRIB.md, docs/RUNBOOK.md 생성/갱신
+4. 90일+ 미수정 문서 목록 표시
