@@ -1,0 +1,55 @@
+# 테스트 환경 배포
+# 트리거: dev 브랜치 push
+# 커스텀 필요: 배포 대상(Vercel/Cloudflare/Docker), 환경변수
+
+name: Deploy Test
+
+on:
+  push:
+    branches: [dev]
+
+concurrency:
+  group: deploy-test
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - uses: actions/checkout@v4
+
+      # === 배포 대상에 맞게 수정 ===
+      # Vercel 예시:
+      # - uses: amondnet/vercel-action@v25
+      #   with:
+      #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
+      #     vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+      #     vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # Cloudflare Pages 예시:
+      # - uses: cloudflare/wrangler-action@v3
+      #   with:
+      #     apiToken: ${{ secrets.CF_API_TOKEN }}
+      #     command: pages deploy dist --project-name=my-project
+
+      - name: Deploy to test
+        run: echo "TODO: 배포 커맨드를 프로젝트에 맞게 설정"
