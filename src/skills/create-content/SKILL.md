@@ -84,3 +84,12 @@ cd /Users/glen/Desktop/work/glen-contents-creator && npx tsx src/index.ts render
 | .json | 확장자 `.json` |
 | GitHub | `github.com/owner/repo` |
 | 폴더 | 디렉토리 경로 |
+
+## Gotchas
+
+> Claude가 콘텐츠 생성에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+
+1. **원문 제목 그대로 복사** — title은 반드시 한글로 재구성. 원문 영어 제목을 그대로 넣지 않기.
+2. **tldrBullets 개수 틀림** — 정확히 5개여야 한다. 4개나 6개로 생성하는 경향.
+3. **전문 용어 풀이 누락** — 개발 경험 없는 독자 기준. 전문 용어는 한글 풀이 + 괄호 영어 병기.
+4. **imagePlaceholder 과다/과소** — 전체 3~5개 범위. 모든 섹션에 넣거나 하나도 안 넣는 경향.

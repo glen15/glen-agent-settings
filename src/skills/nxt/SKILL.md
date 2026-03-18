@@ -111,3 +111,12 @@ GTD 위클리 리뷰 체크리스트:
 - 삭제(`delete_task`, `delete_project`)는 반드시 사용자 확인 후 실행
 - 대량 변경(10개 이상 태스크 일괄 처리)은 미리 목록 보여주고 확인
 - 태스크 업데이트 시 기존 데이터를 덮어쓰지 않도록 필요한 필드만 전달
+
+## Gotchas
+
+> Claude가 nxtflow에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+
+1. **projectId 없이 전체 태스크 조회** — 148개+ 태스크가 반환되어 ~40K 토큰 낭비. 반드시 projectId 필터 사용.
+2. **status 필드명 혼동** — 완료 처리는 `status: "completed"` (gtdStatus 아님).
+3. **위임 시 entity 미확인** — delegate 전에 `list_entities`로 대상이 있는지 확인. 없으면 생성.
+4. **태스크 제목 중복 생성** — `add` 전에 유사 제목 검색 필수.
