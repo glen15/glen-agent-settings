@@ -72,8 +72,9 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
   echo "  [1/7] 스킬..."
   for skill_dir in "${DIST_DIR}/claude/skills/"*/; do
     skill_name=$(basename "$skill_dir")
-    mkdir -p "${CLAUDE_DIR}/skills/${skill_name}"
-    do_copy "$skill_dir" "${CLAUDE_DIR}/skills/${skill_name}/.."
+    # 기존 스킬 디렉토리 초기화 후 복사 (잔존 파일 방지)
+    rm -rf "${CLAUDE_DIR}/skills/${skill_name}"
+    cp -r "$skill_dir" "${CLAUDE_DIR}/skills/${skill_name}"
   done
   # harness.md
   do_copy "${DIST_DIR}/claude/skills/harness.md" "${CLAUDE_DIR}/skills/harness.md" 2>/dev/null || true
