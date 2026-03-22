@@ -1,6 +1,8 @@
 ---
 name: ui-ux-pro-max
-description: "UI/UX design intelligence. 67 styles, 96 palettes, 57 font pairings, 25 charts, 13 stacks (React, Next.js, Vue, Svelte, SwiftUI, React Native, Flutter, Tailwind, shadcn/ui). Actions: plan, build, create, design, implement, review, fix, improve, optimize, enhance, refactor, check UI/UX code. Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, blog, mobile app, .html, .tsx, .vue, .svelte. Elements: button, modal, navbar, sidebar, card, table, form, chart. Styles: glassmorphism, claymorphism, minimalism, brutalism, neumorphism, bento grid, dark mode, responsive, skeuomorphism, flat design. Topics: color palette, accessibility, animation, layout, typography, font pairing, spacing, hover, shadow, gradient. Integrations: shadcn/ui MCP for component search and examples."
+description: "UI/UX 디자인 시스템 생성 및 구현 가이드. 디자인 시스템, 컬러 팔레트, 폰트 페어링, 스타일 추천, Pre-Delivery 체크리스트 제공. UI/UX 설계·구현·리뷰 요청 시 사용."
+user_invocable: true
+argument-hint: <"제품유형 키워드"> [--design-system] [--domain style|color|typography|ux]
 ---
 # UI/UX Pro Max - Design Intelligence
 

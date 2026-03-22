@@ -1,6 +1,7 @@
 ---
 name: create-content
-description: URL, 파일(.md/.pdf/.json), GitHub 레포, 로컬 폴더를 입력받아 구조화된 한글 마크다운 콘텐츠와 이미지를 생성한다. 콘텐츠 생성, 글 정리, 요약이 필요할 때 사용.
+description: "URL, 파일(.md/.pdf/.json), GitHub 레포, 로컬 폴더를 입력받아 구조화된 한글 마크다운 콘텐츠와 이미지를 생성한다. 콘텐츠 생성, 글 정리, 요약이 필요할 때 사용."
+user_invocable: true
 argument-hint: <입력> [--images]
 allowed-tools: Bash, Read, Write, Glob, Grep
 ---
