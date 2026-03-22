@@ -47,6 +47,7 @@ argument-hint: ["작업 설명"]
 
 **cwd → projectId 매핑** (하드코딩으로 list_projects 호출 제거):
 - `/Users/glen/Desktop/work/dxai` → `2127cff5-b87a-42c7-bf60-d76d636ff886`
+- `/Users/glen/Desktop/work/glen-agent-settings` → `56916386-9e1f-4277-9e5a-51ca584d79f1`
 
 #### 3-1. 기존 태스크 매칭 확인
 
