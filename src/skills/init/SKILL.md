@@ -2,7 +2,7 @@
 name: init
 description: "새 프로젝트 디렉토리에서 Claude Code 환경 자동 설정. /init — CLAUDE.md, memory, nxtflow 프로젝트 연결, 초기 계획 생성을 한 번에 처리. 새 프로젝트 시작, 환경 설정, 부트스트랩 시 사용."
 user_invocable: true
-argument-hint: ["프로젝트 설명 (선택)"]
+argument-hint: ["프로젝트 설명"]
 ---
 
 # Init — 프로젝트 부트스트랩

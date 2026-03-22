@@ -561,3 +561,14 @@ notebooklm language --help     # Language settings
 **Re-authenticate:** `notebooklm login`
 **Check version:** `notebooklm --version`
 **Update skill:** `notebooklm skill install`
+
+## Gotchas
+
+> Claude가 NotebookLM에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+
+1. **인증 없이 명령 실행** — 모든 명령 전에 `notebooklm status`로 인증 상태 확인. 실패 시 `notebooklm login`.
+2. **소스 처리 완료 전 generate 호출** — 소스 추가 후 `source list --json`으로 status=ready 확인 필수. processing 상태에서 생성하면 빈 결과.
+3. **Rate limit 무시하고 재시도** — `GENERATION_FAILED` 시 최소 5-10분 대기. 즉시 재시도하면 연속 실패.
+4. **main 브랜치에서 pip install** — 반드시 PyPI 또는 release tag 사용. main은 불안정할 수 있음.
+5. **artifact wait 없이 download** — 생성은 비동기. `artifact list`로 status=completed 확인 후 다운로드.
+6. **병렬 에이전트에서 `use` 사용** — 컨텍스트 충돌 발생. `-n <notebook_id>` 플래그로 명시적 지정.

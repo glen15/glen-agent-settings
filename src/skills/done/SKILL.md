@@ -2,12 +2,14 @@
 name: done
 description: "작업 완료 처리: 커밋 + nxtflow 태스크 자동 생성/완료. /done 또는 /done \"작업 설명\""
 user_invocable: true
-argument-hint: ["작업 설명 (선택)"]
+argument-hint: ["작업 설명"]
 ---
 
 # Done — 작업 완료 파이프라인
 
 작업이 끝나면 커밋과 nxtflow 처리를 한 번에 수행한다.
+
+> **`/done` vs `/nxt done`**: `/done`은 **git 커밋 + nxtflow 태스크 자동 처리**를 한 번에 수행. `/nxt done`은 **커밋 없이 순수 GTD 태스크만 완료 처리**. 코드 작업 후에는 `/done`, 코드 외 태스크 완료는 `/nxt done`.
 
 ## 입력
 
