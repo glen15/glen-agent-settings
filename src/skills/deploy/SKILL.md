@@ -83,6 +83,30 @@ gh run list --branch $(git branch --show-current) --limit 5
 gh run view <run-id>
 ```
 
+### 배포 후 스모크 테스트 (선택)
+
+프로덕션/스테이징 배포 완료 후, 사이트 기본 동작을 빠르게 확인:
+
+```bash
+# 1. 배포된 URL 열기
+browser-use open <배포된-URL>
+
+# 2. 주요 요소 로드 확인
+browser-use state
+
+# 3. 스크린샷 캡처
+browser-use screenshot ./artifacts/deploy-smoke.png
+
+# 4. 핵심 페이지 2-3개 순회
+browser-use open <URL>/about && browser-use state
+browser-use open <URL>/login && browser-use state
+
+# 5. 정리
+browser-use close
+```
+
+`state`에서 주요 요소가 정상 표시되면 스모크 테스트 통과.
+
 ### 인자 없음 — 배포 현황 요약
 
 1. 최신 프로덕션 태그: `git describe --tags --abbrev=0`
@@ -100,3 +124,4 @@ gh run view <run-id>
 5. **concurrency 미설정** — 동일 브랜치 중복 실행 방지: `concurrency: group: ${{ github.ref }}`.
 6. **환경 보호 없는 프로덕션 배포** — `environment: production` + GitHub에서 protection rules 설정.
 7. **태그를 main이 아닌 브랜치에서 생성** — 프로덕션 태그는 반드시 main 브랜치에서.
+8. **스모크 테스트 없이 배포 완료 선언** — 태그 배포 후 `browser-use`로 최소 메인 페이지 로드 확인.

@@ -75,6 +75,7 @@ bash에서 `claude -p`를 반복 호출하는 무인 자율 코딩. `ralph-loop 
 - **gws CLI를 기본 사용** (MCP Gmail/Calendar 등보다 우선)
 - 사용법: `gws <service> <resource> <method> --params '{...}'`
 - 계정: glen.lee@nxtcloud.kr
+- **browser-use CLI**: 웹 인터랙션/인증/SPA 콘텐츠 → firecrawl보다 우선. UI 시각 검증, 배포 스모크 테스트에 활용
 
 ## API-First + AI-First (B2A 방향성)
 

@@ -341,6 +341,34 @@ These are frequently overlooked issues that make UI look unprofessional:
 
 ---
 
+## Browser Visual Verification (선택)
+
+개발 서버가 실행 중일 때, 코드 레벨 체크리스트 전에 실제 렌더링을 확인한다:
+
+```bash
+# 1. 페이지 열기
+browser-use open http://localhost:3000/<path>
+
+# 2. 라이트 모드 스크린샷
+browser-use screenshot ./artifacts/ui-light.png
+
+# 3. 다크 모드 전환 + 스크린샷
+browser-use eval "document.documentElement.classList.toggle('dark')"
+browser-use screenshot ./artifacts/ui-dark.png
+
+# 4. 모바일 뷰포트 확인 (375px)
+browser-use eval "document.body.style.maxWidth='375px'"
+browser-use screenshot ./artifacts/ui-mobile.png
+
+# 5. 가로 스크롤 여부 확인
+browser-use eval "document.documentElement.scrollWidth > document.documentElement.clientWidth"
+
+# 6. 정리
+browser-use close
+```
+
+스크린샷을 사용자에게 제시하고 피드백을 받은 후 Pre-Delivery Checklist로 진행.
+
 ## Pre-Delivery Checklist
 
 Before delivering UI code, verify these items:

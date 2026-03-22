@@ -19,6 +19,23 @@ cd /Users/glen/Desktop/work/glen-contents-creator && npx tsx src/index.ts read $
 
 이 명령은 JSON을 stdout에 출력한다. `text` 필드에 원문 텍스트가 담긴다.
 
+**Fallback — 인증/SPA 페이지**: 위 명령이 빈 텍스트를 반환하거나 JS 렌더링이 필요한 경우:
+
+```bash
+# 1. 실제 Chrome 프로필로 열기 (로그인 유지)
+browser-use --profile open "<URL>"
+# 2. 페이지 로드 대기
+browser-use wait text "<페이지 핵심 텍스트>"
+# 3. 본문 HTML 추출
+browser-use get html --selector "article, main, .content"
+# 4. 무한 스크롤 페이지인 경우
+browser-use scroll down && browser-use scroll down && browser-use get html
+# 5. 세션 정리
+browser-use close
+```
+
+추출한 HTML에서 텍스트를 파싱하여 Step 2의 `text` 입력으로 사용한다.
+
 ### Step 2: Plan JSON 생성 (너=Claude Code가 직접 수행)
 
 Step 1의 `text`를 분석하여 아래 스키마의 JSON을 생성한다.
