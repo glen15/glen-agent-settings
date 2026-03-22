@@ -65,17 +65,18 @@ bash에서 `claude -p`를 반복 호출하는 무인 자율 코딩. `ralph-loop 
 ## 하네스 엔지니어링
 
 에이전트/스킬/MCP/Hook 선택 전략: `skills/harness.md` 참조.
-- **Skill-First**: Skill로 해결 가능하면 MCP 호출 금지. MCP는 외부 실시간 데이터만.
+- **Skill-First**: Skill이 작업의 중심. CLI·Script·MCP·LLM 판단을 묶는 오케스트레이터
+- **Code-First (Skill 내부)**: Skill 안에서 결정론적 단계(CLI/Script)를 최대화. LLM 판단은 꼭 필요한 접합부에만
+- **Hook = 결정론적 강제**: 가드레일(차단) + 필수 작업(자동 실행). CLAUDE.md는 권고, Hook은 강제
 - **UI 파이프라인**: Skill(디자인 결정 + 컴포넌트 선택) → MCP(소스코드만) → Skill(검증)
 - **에이전트 조합**: planner → tdd-guide → code-reviewer → security-reviewer
-- **CLI 우선**: gws > MCP Gmail/Calendar, gh CLI > GitHub MCP
 
 ## 도구 우선순위
 
-- **gws CLI를 기본 사용** (MCP Gmail/Calendar 등보다 우선)
-- 사용법: `gws <service> <resource> <method> --params '{...}'`
-- 계정: glen.lee@nxtcloud.kr
-- **browser-use CLI**: 웹 인터랙션/인증/SPA 콘텐츠 → firecrawl보다 우선. UI 시각 검증, 배포 스모크 테스트에 활용
+Skill 내부에서 외부 서비스 접근 시: **CLI > MCP**
+- **gws CLI**: Gmail/Calendar (MCP보다 우선) — `gws <service> <resource> <method> --params '{...}'` — 계정: glen.lee@nxtcloud.kr
+- **gh CLI**: GitHub PR/이슈 (GitHub MCP보다 우선)
+- **browser-use CLI**: 웹 인터랙션/인증/SPA (firecrawl보다 우선). UI 시각 검증, 스모크 테스트에 활용
 
 ## API-First + AI-First (B2A 방향성)
 
