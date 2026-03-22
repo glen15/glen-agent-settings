@@ -83,7 +83,8 @@ echo "  → codex: AGENTS.md"
 
 # ── 6. 설정 파일 ──
 echo "[7/7] 설정 파일 빌드..."
-cp "${SRC_DIR}/settings.json" "${DIST_DIR}/claude/settings.json"
+# __CLAUDE_HOME__ 플레이스홀더를 실제 경로로 치환
+sed "s|__CLAUDE_HOME__|${HOME}/.claude|g" "${SRC_DIR}/settings.json" > "${DIST_DIR}/claude/settings.json"
 
 # Codex config.toml 생성
 cat > "${DIST_DIR}/codex/config.toml" << 'TOML'

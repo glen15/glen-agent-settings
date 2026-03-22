@@ -28,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/refine/prompt-init.sh",
+            "command": "__CLAUDE_HOME__/hooks/refine/prompt-init.sh",
             "timeout": 10
           }
         ]
@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/harness-tracker-skill.sh",
+            "command": "__CLAUDE_HOME__/hooks/harness-tracker-skill.sh",
             "timeout": 5
           }
         ]
@@ -49,7 +49,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/refine/commit-check.sh",
+            "command": "__CLAUDE_HOME__/hooks/refine/commit-check.sh",
             "timeout": 10
           }
         ]
@@ -59,7 +59,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/commit-format-check.sh",
+            "command": "__CLAUDE_HOME__/hooks/commit-format-check.sh",
             "timeout": 10
           }
         ]
@@ -69,7 +69,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/deploy-tag-guard.sh",
+            "command": "__CLAUDE_HOME__/hooks/deploy-tag-guard.sh",
             "timeout": 10
           }
         ]
@@ -79,7 +79,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/secret-scanner.sh",
+            "command": "__CLAUDE_HOME__/hooks/secret-scanner.sh",
             "timeout": 10
           }
         ]
@@ -89,7 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/secret-scanner.sh",
+            "command": "__CLAUDE_HOME__/hooks/secret-scanner.sh",
             "timeout": 10
           }
         ]
@@ -101,7 +101,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/pr-status-check.sh",
+            "command": "__CLAUDE_HOME__/hooks/pr-status-check.sh",
             "timeout": 10
           }
         ]
@@ -111,7 +111,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/prettier-console-check.sh",
+            "command": "__CLAUDE_HOME__/hooks/prettier-console-check.sh",
             "timeout": 10
           }
         ]
@@ -121,7 +121,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/auto-test.sh",
+            "command": "__CLAUDE_HOME__/hooks/auto-test.sh",
             "timeout": 30
           }
         ]
@@ -131,7 +131,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/auto-test.sh",
+            "command": "__CLAUDE_HOME__/hooks/auto-test.sh",
             "timeout": 30
           }
         ]
@@ -140,7 +140,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/harness-tracker.sh",
+            "command": "__CLAUDE_HOME__/hooks/harness-tracker.sh",
             "timeout": 5
           }
         ]
@@ -151,7 +151,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/stop-console-check.sh",
+            "command": "__CLAUDE_HOME__/hooks/stop-console-check.sh",
             "timeout": 10
           }
         ]
@@ -160,7 +160,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/refine/stop-loop.sh",
+            "command": "__CLAUDE_HOME__/hooks/refine/stop-loop.sh",
             "timeout": 15
           }
         ]
@@ -169,7 +169,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/glen/.claude/hooks/post-task-commit-check.sh",
+            "command": "__CLAUDE_HOME__/hooks/post-task-commit-check.sh",
             "timeout": 10
           }
         ]
@@ -178,7 +178,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "bash /Users/glen/.claude/hooks/refine/hud-wrapper.sh"
+    "command": "bash __CLAUDE_HOME__/hooks/refine/hud-wrapper.sh"
   },
   "enabledPlugins": {
     "claude-hud@claude-hud": true,
