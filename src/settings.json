@@ -32,6 +32,15 @@
             "timeout": 10
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/harness-tracker-skill.sh",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PreToolUse": [
@@ -124,6 +133,15 @@
             "type": "command",
             "command": "/Users/glen/.claude/hooks/auto-test.sh",
             "timeout": 30
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/glen/.claude/hooks/harness-tracker.sh",
+            "timeout": 5
           }
         ]
       }
