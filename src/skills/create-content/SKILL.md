@@ -13,8 +13,10 @@ allowed-tools: Bash, Read, Write, Glob, Grep
 ## 프로젝트 경로
 
 ```
-CONTENTS_CREATOR_DIR="/Users/glen/Desktop/work/glen-contents-creator"
+CONTENTS_CREATOR_DIR="${CONTENTS_CREATOR_DIR:-__CONTENTS_CREATOR_DIR__}"
 ```
+
+환경변수 `CONTENTS_CREATOR_DIR`이 설정되어 있으면 사용, 없으면 빌드 시 치환된 기본값 사용.
 
 ## 워크플로우 (3단계)
 
@@ -46,7 +48,7 @@ browser-use close
 ### Step 2: Plan JSON 생성 (너=Claude Code가 직접 수행)
 
 Step 1의 `text`를 분석하여 아래 스키마의 JSON을 생성한다.
-`${CONTENTS_CREATOR_DIR}/tmp/plan.json`에 저장한다.
+현재 프로젝트 디렉토리의 `tmp/plan.json`에 저장한다.
 
 **Plan JSON 스키마:**
 
@@ -85,18 +87,18 @@ Step 1의 `text`를 분석하여 아래 스키마의 JSON을 생성한다.
 ### Step 3: 렌더링 (+ 이미지)
 
 ```bash
-cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --output file
+cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --output file --output-dir "$(pwd)"
 ```
 
 이미지 생성이 필요하면:
 
 ```bash
-cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --images --output file
+cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --images --output file --output-dir "$(pwd)"
 ```
 
-결과물은 `output/` 디렉토리에 저장된다:
-- `output/<제목>.md` — 마크다운
-- `output/<제목>.plan.json` — Plan JSON
+결과물은 **현재 세션의 프로젝트 디렉토리**에 저장된다:
+- `./<제목>.md` — 마크다운
+- `./<제목>.plan.json` — Plan JSON
 
 ## 입력 타입
 

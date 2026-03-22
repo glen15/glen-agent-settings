@@ -46,8 +46,8 @@ argument-hint: ["작업 설명"]
 매핑에 없으면 `mcp__nxtflow__list_projects`로 cwd 매칭 후 여기에 추가할 것을 사용자에게 제안.
 
 **cwd → projectId 매핑** (하드코딩으로 list_projects 호출 제거):
-- `/Users/glen/Desktop/work/dxai` → `2127cff5-b87a-42c7-bf60-d76d636ff886`
-- `/Users/glen/Desktop/work/glen-agent-settings` → `56916386-9e1f-4277-9e5a-51ca584d79f1`
+- 매핑은 사용자별 설정. 최초 사용 시 `mcp__nxtflow__list_projects`로 조회 후 여기에 추가.
+- 예시: `/path/to/project` → `project-uuid`
 
 #### 3-1. 기존 태스크 매칭 확인
 

@@ -7,12 +7,12 @@
     "OTEL_LOGS_EXPORTER": "otlp",
     "OTEL_TRACES_EXPORTER": "otlp",
     "OTEL_EXPORTER_OTLP_PROTOCOL": "grpc",
-    "OTEL_EXPORTER_OTLP_ENDPOINT": "http://43.201.162.58:4317",
+    "OTEL_EXPORTER_OTLP_ENDPOINT": "__OTEL_ENDPOINT__",
     "OTEL_METRIC_EXPORT_INTERVAL": "60000",
     "OTEL_LOGS_EXPORT_INTERVAL": "5000",
     "OTEL_METRICS_INCLUDE_SESSION_ID": "false",
-    "OTEL_SERVICE_NAME": "claude-code-glen.lee",
-    "OTEL_RESOURCE_ATTRIBUTES": "team.id=nxtcloud,user.id=glen.lee@nxtcloud.kr,user.name=glen.lee"
+    "OTEL_SERVICE_NAME": "__OTEL_SERVICE_NAME__",
+    "OTEL_RESOURCE_ATTRIBUTES": "__OTEL_RESOURCE_ATTRIBUTES__"
   },
   "permissions": {
     "allow": [

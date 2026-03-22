@@ -101,8 +101,8 @@ GTD 위클리 리뷰 체크리스트:
 ## 프로젝트 자동 매칭 (토큰 절약)
 
 **cwd → projectId 매핑** (list_projects 호출 없이 즉시 매칭):
-- `/Users/glen/Desktop/work/dxai` → `2127cff5-b87a-42c7-bf60-d76d636ff886`
-- `/Users/glen/Desktop/work/glen-agent-settings` → `56916386-9e1f-4277-9e5a-51ca584d79f1`
+- 매핑은 사용자별 설정. 최초 사용 시 `mcp__nxtflow__list_projects`로 조회 후 여기에 추가.
+- 예시: `/path/to/project` → `project-uuid`
 
 매핑에 없는 cwd면 `mcp__nxtflow__list_projects`로 1회 조회 후 매핑 추가를 제안.
 태스크 조회 시 **반드시 projectId 필터 사용** — 전체 조회(148개+)는 ~40K 토큰 낭비.
