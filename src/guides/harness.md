@@ -330,14 +330,26 @@ Hook
 - **Hook**: 결정론적 강제 — 위반하면 차단되거나 자동 실행됨
 - **CLAUDE.md**: 권고 — LLM이 대체로 따르지만 100%는 아님
 
-| Hook | 시점 | 역할 |
-|------|------|------|
-| `prompt-init.sh` | UserPromptSubmit | Refine Loop 초기화/상태 주입 |
-| `commit-check.sh` | PreToolUse(Bash) | 커밋 규칙 검증 (refine/ralph 형식) |
-| `stop-loop.sh` | Stop | Refine iteration 전환/종료 |
-| `stop-console-check.sh` | Stop | console.log 잔존 체크 |
-| PostToolUse(Edit) | Edit 후 | prettier 포맷팅 + console.log 경고 |
-| PostToolUse(Bash) | gh pr create 후 | PR URL + CI 상태 알림 |
+#### 가드레일 (차단)
+
+| Hook | 시점 | 역할 | 대상 스킬 |
+|------|------|------|----------|
+| `commit-format-check.sh` | PreToolUse(Bash) | 커밋 한글 + 타입 프리픽스 검증 | `/done`, 수동 커밋 |
+| `commit-check.sh` | PreToolUse(Bash) | `refine(N/MAX)` 형식 검증 | `/refine` 전용 |
+| `secret-scanner.sh` | PreToolUse(Write, Edit) | 하드코딩된 시크릿 차단 | 전체 |
+| git push 차단 (인라인) | PreToolUse(Bash) | git push 실수 방지 (현재 비활성) | 전체 |
+
+#### 필수 작업 (자동 실행)
+
+| Hook | 시점 | 역할 | 대상 스킬 |
+|------|------|------|----------|
+| `auto-test.sh` | PostToolUse(Write, Edit) | 소스 수정 후 관련 테스트 자동 실행 | `/tdd`, 일반 코딩 |
+| prettier + console.log (인라인) | PostToolUse(Edit) | 포맷팅 + console.log 경고 | 전체 |
+| PR URL 알림 (인라인) | PostToolUse(Bash) | gh pr create 후 URL + CI 상태 | `/deploy` |
+| `prompt-init.sh` | UserPromptSubmit | Refine Loop 상태 컨텍스트 주입 | `/refine` |
+| `stop-loop.sh` | Stop | Refine iteration 전환/정체 감지/예산 확인 | `/refine` |
+| `stop-console-check.sh` | Stop | 세션 종료 시 console.log 잔존 경고 | 전체 |
+| `post-task-commit-check.sh` | Stop | 미커밋 변경사항 경고 | `/done` 누락 방지 |
 
 ---
 
