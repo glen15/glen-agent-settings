@@ -10,12 +10,18 @@ allowed-tools: Bash, Read, Write, Glob, Grep
 
 입력 소스 → 구조화된 한글 콘텐츠 생성 파이프라인.
 
+## 프로젝트 경로
+
+```
+CONTENTS_CREATOR_DIR="/Users/glen/Desktop/work/glen-contents-creator"
+```
+
 ## 워크플로우 (3단계)
 
 ### Step 1: 소스 읽기
 
 ```bash
-cd /Users/glen/Desktop/work/glen-contents-creator && npx tsx src/index.ts read $ARGUMENTS[0]
+cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts read $ARGUMENTS[0]
 ```
 
 이 명령은 JSON을 stdout에 출력한다. `text` 필드에 원문 텍스트가 담긴다.
@@ -40,7 +46,7 @@ browser-use close
 ### Step 2: Plan JSON 생성 (너=Claude Code가 직접 수행)
 
 Step 1의 `text`를 분석하여 아래 스키마의 JSON을 생성한다.
-`/Users/glen/Desktop/work/glen-contents-creator/tmp/plan.json`에 저장한다.
+`${CONTENTS_CREATOR_DIR}/tmp/plan.json`에 저장한다.
 
 **Plan JSON 스키마:**
 
@@ -79,13 +85,13 @@ Step 1의 `text`를 분석하여 아래 스키마의 JSON을 생성한다.
 ### Step 3: 렌더링 (+ 이미지)
 
 ```bash
-cd /Users/glen/Desktop/work/glen-contents-creator && npx tsx src/index.ts render tmp/plan.json --output file
+cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --output file
 ```
 
 이미지 생성이 필요하면:
 
 ```bash
-cd /Users/glen/Desktop/work/glen-contents-creator && npx tsx src/index.ts render tmp/plan.json --images --output file
+cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --images --output file
 ```
 
 결과물은 `output/` 디렉토리에 저장된다:

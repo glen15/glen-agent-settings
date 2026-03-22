@@ -3,7 +3,8 @@
  * 단일 이미지 생성 래퍼.
  * Usage: npx tsx generate.ts "이미지 설명" [--resolution 1K|4K] [--output-dir ./path]
  */
-import { generateImage } from '/Users/glen/Desktop/work/glen-contents-creator/src/core/image-gen.ts';
+const CONTENTS_CREATOR_DIR = process.env.CONTENTS_CREATOR_DIR || '/Users/glen/Desktop/work/glen-contents-creator';
+const { generateImage } = await import(`${CONTENTS_CREATOR_DIR}/src/core/image-gen.ts`);
 
 const args = process.argv.slice(2);
 if (args.length === 0 || args[0] === '--help') {

@@ -10,10 +10,16 @@ argument-hint: <"이미지 설명"> [--resolution 1K|4K] [--output-dir ./path]
 Gemini API(`gemini-3.1-flash-image-preview`)로 교육용 인포그래픽/다이어그램을 생성한다.
 `create-content`의 이미지 생성 기능을 독립 스킬로 분리한 것.
 
+## 프로젝트 경로
+
+```
+IMAGE_SKILL_DIR="${HOME}/.claude/skills/image"
+```
+
 ## 실행
 
 ```bash
-npx tsx skills/image/scripts/generate.ts "__ARGS__"
+npx tsx "${IMAGE_SKILL_DIR}/scripts/generate.ts" "__ARGS__"
 ```
 
 `__ARGS__`를 사용자 인자로 치환. 결과는 JSON으로 `{ filePath, description, resolution }` 반환.
