@@ -29,7 +29,7 @@ description: "사용자 입력 처리, 인증, API 엔드포인트, 결제, 시�
 
 ## Gotchas
 
-> Claude가 이 영역에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **JWT를 localStorage에 저장** — Claude가 기본으로 `localStorage.setItem('token', ...)` 패턴을 쓴다. 반드시 httpOnly 쿠키 사용.
 2. **에러에서 원본 메시지 노출** — `catch (e) { return { error: e.message } }` 패턴을 쓰면 내부 DB 스키마, 파일 경로가 노출된다. 사용자에겐 제네릭 메시지만.

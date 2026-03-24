@@ -143,7 +143,7 @@ npx remotion render <composition-id> --output out/video.mp4
 
 ## Gotchas
 
-> Claude가 비디오 생성에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **CSS 애니메이션 사용** — `transition`, `animation`, Tailwind `animate-*` 모두 금지. 반드시 `useCurrentFrame()` + `interpolate()`/`spring()`.
 2. **Remotion 스킬 미로드** — 코드 작성 전 반드시 관련 rule 파일을 읽어야 한다. 읽지 않으면 잘못된 패턴 사용.

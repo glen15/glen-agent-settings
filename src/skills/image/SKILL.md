@@ -45,9 +45,10 @@ npx tsx "${IMAGE_SKILL_DIR}/scripts/generate.ts" "__ARGS__"
 
 ## Gotchas
 
-> Claude가 이미지 생성에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **설명이 너무 추상적** — "좋은 아키텍처"가 아니라 "3개의 마이크로서비스가 API Gateway를 통해 통신하는 구조도"처럼 구체적으로.
 2. **GEMINI_API_KEY 미확인** — 실행 전 환경변수 존재 여부 확인. 없으면 사용자에게 안내.
 3. **output-dir 미존재** — 스크립트가 자동 생성하지만, 사용자가 기대하는 경로가 맞는지 확인.
 4. **텍스트 과다 요청** — 이미지 안에 긴 문장을 넣으려 하면 품질 저하. 라벨/키워드 수준이 최적.
+5. **top-level await 금지** — `tsx`는 기본 CJS 모드로 실행되어 top-level `await`가 `SyntaxError` 발생. 반드시 `async function main() { ... } main();` 패턴 사용. `.mjs` 래퍼는 임시방편이므로 금지.

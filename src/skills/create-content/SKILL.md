@@ -113,7 +113,7 @@ cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --imag
 
 ## Gotchas
 
-> Claude가 콘텐츠 생성에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **원문 제목 그대로 복사** — title은 반드시 한글로 재구성. 원문 영어 제목을 그대로 넣지 않기.
 2. **tldrBullets 개수 틀림** — 정확히 5개여야 한다. 4개나 6개로 생성하는 경향.

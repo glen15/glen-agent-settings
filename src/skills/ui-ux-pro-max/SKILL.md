@@ -408,7 +408,7 @@ Before delivering UI code, verify these items:
 
 ## Gotchas
 
-> Claude가 UI/UX에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **Inter 폰트 + 보라색 그라디언트** — Claude의 기본 "AI 티 나는 패턴". 디자인 시스템에서 추천된 폰트/컬러를 사용.
 2. **이모지를 아이콘으로 사용** — SVG 아이콘(Lucide, Heroicons) 사용. 이모지는 프로페셔널하지 않다.

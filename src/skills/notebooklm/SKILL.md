@@ -564,7 +564,7 @@ notebooklm language --help     # Language settings
 
 ## Gotchas
 
-> Claude가 NotebookLM에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **인증 없이 명령 실행** — 모든 명령 전에 `notebooklm status`로 인증 상태 확인. 실패 시 `notebooklm login`.
 2. **소스 처리 완료 전 generate 호출** — 소스 추가 후 `source list --json`으로 status=ready 확인 필수. processing 상태에서 생성하면 빈 결과.

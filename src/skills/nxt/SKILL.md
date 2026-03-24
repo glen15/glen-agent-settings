@@ -115,7 +115,7 @@ GTD 위클리 리뷰 체크리스트:
 
 ## Gotchas
 
-> Claude가 nxtflow에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **projectId 없이 전체 태스크 조회** — 148개+ 태스크가 반환되어 ~40K 토큰 낭비. 반드시 projectId 필터 사용.
 2. **status 필드명 혼동** — 완료 처리는 `status: "completed"` (gtdStatus 아님).

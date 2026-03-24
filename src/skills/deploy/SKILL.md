@@ -115,7 +115,7 @@ browser-use close
 
 ## Gotchas
 
-> Claude가 CI/CD 설정에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **시크릿을 워크플로우에 하드코딩** — `${{ secrets.XXX }}` 사용. 값을 직접 넣지 않기.
 2. **node 버전 미고정** — `node-version: '20'`처럼 명시. `latest` 사용 금지.

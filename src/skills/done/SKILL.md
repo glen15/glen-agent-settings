@@ -96,7 +96,7 @@ mcp__nxtflow__create_task:
 
 ## Gotchas
 
-> Claude가 /done에서 자주 실수하는 것. 실패할 때마다 한 줄 추가.
+> **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
 
 1. **projectId 매핑 없이 list_projects 호출** — 매핑 테이블을 먼저 확인. 전체 조회는 ~40K 토큰 낭비.
 2. **민감 파일을 git add** — `.env`, `.env.local`, credentials 파일을 스테이징에 포함. 반드시 파일명 기반 add.
