@@ -75,6 +75,10 @@ case "$tool_name" in
     category="agent"
     detail=$(printf '%s' "$input" | jq -r '.tool_input.description // ""' 2>/dev/null | head -c 50)
     ;;
+  Skill)
+    category="skill"
+    detail=$(printf '%s' "$input" | jq -r '.tool_input.skill // "unknown"' 2>/dev/null || echo "unknown")
+    ;;
   mcp__*)
     category="mcp"
     detail=$(printf '%s' "$tool_name" | sed 's/^mcp__//')

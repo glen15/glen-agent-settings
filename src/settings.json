@@ -41,6 +41,15 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__CLAUDE_HOME__/hooks/task-context-inject.sh",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PreToolUse": [
