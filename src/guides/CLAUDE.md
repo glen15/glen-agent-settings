@@ -18,7 +18,7 @@ Glen의 개인 코딩 원칙. 모든 프로젝트에 적용.
 
 CC 세션 내부에서 Stop Hook으로 반복 수렴. 상세: `/refine` 스킬 참조.
 
-- `MAX_ITER=5`, `STAGNATION_LIMIT=3`
+- `MAX_ITER=10`, `STAGNATION_LIMIT=3`
 - 각 iteration: Plan → Execute → Verify → Record(커밋)
 - 정체 감지 시 반드시 사용자에게 물어보고 전략 변경
 - 커밋: `refine(N/MAX): 한글 설명`
@@ -69,8 +69,11 @@ bash에서 `claude -p`를 반복 호출하는 무인 자율 코딩. `ralph-loop 
 - **Skill-First**: Skill이 작업의 중심. CLI·Script·MCP·LLM 판단을 묶는 오케스트레이터
 - **Code-First (Skill 내부)**: Skill 안에서 결정론적 단계(CLI/Script)를 최대화. LLM 판단은 꼭 필요한 접합부에만
 - **Hook = 결정론적 강제**: 가드레일(차단) + 필수 작업(자동 실행). CLAUDE.md는 권고, Hook은 강제
+- **Generator-Evaluator 분리**: 만드는 자와 평가하는 자를 분리. 자기 관대 편향 방지. Sprint Contract로 "완료" 합의
+- **Context Reset**: context 과부하 시 추적 문서에 상태 기록 후 fresh context에서 재개
+- **하네스 진화**: 모델 개선 → 스캐폴딩 축소 → 새 능력으로 더 복잡한 작업 활성화
 - **UI 파이프라인**: Skill(디자인 결정 + 컴포넌트 선택) → MCP(소스코드만) → Skill(검증)
-- **에이전트 조합**: planner → tdd-guide → code-reviewer → security-reviewer
+- **에이전트 조합**: planner(architect) → tdd-guide → evaluator → code-reviewer → security-reviewer
 
 ## 도구 우선순위
 

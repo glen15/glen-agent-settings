@@ -15,6 +15,8 @@ Glen의 Claude Code 하네스 운영 가이드. 에이전트가 **올바른 도�
 2. **Skill-First** — Skill이 작업의 중심. CLI·Script·MCP·LLM 판단을 하나로 묶는 오케스트레이터
 3. **Code-First (Skill 내부 원칙)** — Skill 안에서 결정론적 단계(CLI/Script)를 최대화하고, LLM 판단은 꼭 필요한 곳에만
 4. **한 번에 한 기능** — 컨텍스트 부족과 조기 완료 선언을 방지
+5. **Generator-Evaluator 분리** — 만드는 자와 평가하는 자를 분리하여 자기 관대 편향 방지
+6. **하네스 진화** — 모델이 좋아질수록 스캐폴딩은 줄이고, 새 능력으로 더 복잡한 작업을 활성화
 
 ---
 
@@ -22,8 +24,9 @@ Glen의 Claude Code 하네스 운영 가이드. 에이전트가 **올바른 도�
 
 | 상황 | 에이전트 | 활성화 |
 |------|---------|--------|
-| 새 기능 설계 | 내장 Plan 모드 / `architect` | 수동 |
+| 새 기능 설계 / 사양 확장 | 내장 Plan 모드 / `architect` | 수동 |
 | 새 기능 구현 | `tdd-guide` | 수동 |
+| 라이브 앱 품질 평가 | `evaluator` | 수동 (/evaluate) |
 | 빌드/타입 에러 | `build-error-resolver` | **자동** (빌드 실패 시) |
 | 코드 변경 후 리뷰 | `code-reviewer` | **자동** (코드 변경 후) |
 | 보안 민감 코드 | `security-reviewer` | **자동** (인증/API/결제 코드) |
@@ -35,10 +38,12 @@ Glen의 Claude Code 하네스 운영 가이드. 에이전트가 **올바른 도�
 ### 에이전트 조합 패턴
 
 ```
-[새 기능]  /plan (내장 Plan) → tdd-guide → code-reviewer → security-reviewer
-[버그 수정] Explore → tdd-guide (재현 테스트 먼저) → build-error-resolver
-[리팩토링] refactor-cleaner → code-reviewer → doc-updater
-[UI 구현]  /plan (내장 Plan) → UI 파이프라인 (아래 참조) → code-reviewer
+[새 기능]      /plan (architect) → tdd-guide → evaluator → code-reviewer → security-reviewer
+[풀스택 앱]    /plan (architect: 사양 확장) → /begin → Generator(tdd-guide) ↔ Evaluator(contract 기반) 반복
+[버그 수정]    Explore → tdd-guide (재현 테스트 먼저) → build-error-resolver
+[리팩토링]     refactor-cleaner → code-reviewer → doc-updater
+[UI 구현]      /plan (architect) → UI 파이프라인 (아래 참조) → evaluator (스크린샷 기반) → code-reviewer
+[장시간 개발]  /plan → /begin → /refine (Generator-Evaluator 모드) → context reset → 반복
 ```
 
 ---
@@ -71,7 +76,8 @@ Glen의 Claude Code 하네스 운영 가이드. 에이전트가 **올바른 도�
 
 | 작업 유형 | 커맨드 | 에이전트 |
 |----------|--------|---------|
-| 구현 계획 | `/plan` | architect |
+| 구현 계획 / 사양 확장 | `/plan` | architect |
+| 라이브 앱 평가 | `/evaluate` | evaluator |
 | TDD 테스트 작성 | `/tdd` | tdd-guide |
 | 테스트 커버리지 확보 | `/test-coverage` | tdd-guide |
 | 빌드 오류 수정 | `/build-fix` | build-error-resolver |
@@ -346,10 +352,11 @@ Hook
 | `auto-test.sh` | PostToolUse(Write, Edit) | 소스 수정 후 관련 테스트 자동 실행 | `/tdd`, 일반 코딩 |
 | prettier + console.log (인라인) | PostToolUse(Edit) | 포맷팅 + console.log 경고 | 전체 |
 | PR URL 알림 (인라인) | PostToolUse(Bash) | gh pr create 후 URL + CI 상태 | `/deploy` |
+| `task-context-inject.sh` | UserPromptSubmit | 활성 /begin 작업 컨텍스트 주입 | `/begin` 생명주기 |
 | `prompt-init.sh` | UserPromptSubmit | Refine Loop 상태 컨텍스트 주입 | `/refine` |
 | `stop-loop.sh` | Stop | Refine iteration 전환/정체 감지/예산 확인 | `/refine` |
 | `stop-console-check.sh` | Stop | 세션 종료 시 console.log 잔존 경고 | 전체 |
-| `post-task-commit-check.sh` | Stop | 미커밋 변경사항 경고 | `/done` 누락 방지 |
+| `post-task-commit-check.sh` | Stop | 미커밋 + 활성 작업 미종료 경고 | `/begin`-`/done` 생명주기 |
 
 ---
 
@@ -395,11 +402,14 @@ Hook
 
 ```
 ┌─────────────────────────────────────────────────┐
+│  Layer 6: 하네스 진화                              │
+│  모델 개선 → 스캐폴딩 축소 → 새 능력으로 복잡한 작업  │
+├─────────────────────────────────────────────────┤
 │  Layer 5: 라이프사이클 관리                        │
-│  Memory, Refine/Ralph Loop, git 체크포인트           │
+│  Memory, Refine/Ralph Loop, Context Reset, git    │
 ├─────────────────────────────────────────────────┤
 │  Layer 4: 피드백 루프                              │  결정론적
-│  빌드/테스트 결과 → 에러 주입 → 자동 수정 시도      │
+│  Generator-Evaluator 분리, Sprint Contract 검증    │
 ├─────────────────────────────────────────────────┤
 │  Layer 3: 결정론적 강제 (Hook)                      │  결정론적
 │  가드레일(차단) + 필수 작업(자동 실행)              │  (LLM 우회 불가)
@@ -418,3 +428,179 @@ Skill-First: Layer 2의 중심은 Skill (CLI·Script·MCP·판단을 묶는 오�
 Code-First:  Skill 내부에서 결정론적 단계를 최대화 (LLM 판단은 접합부에만)
 진화 방향:   Skill 내 LLM 판단 단계가 패턴화되면 Script로 추출
 ```
+
+---
+
+## Long-Running App 개발 패턴
+
+> *"22배 비용 증가가 기능성에서 20배+ 개선을 달성한다."* — Anthropic, Harness Design
+
+단순 작업(20분)과 장시간 앱 개발(3~6시간)은 근본적으로 다른 하네스가 필요하다.
+
+### 3단계 에이전트 아키텍처
+
+```
+[Planner]  1~4문장 프롬프트 → 완전한 제품 사양 (architect)
+     ↓
+[Generator] 사양 기반 구현 (tdd-guide + 코딩)
+     ↓  ↑ (반복)
+[Evaluator] 라이브 앱 평가 (evaluator — Sprint Contract 기준)
+```
+
+**Planner (architect 에이전트)**:
+- 야심찬 범위 지향, 세밀한 구현 세부사항은 배제
+- AI 기능 통합 기회 식별
+- Sprint Contract 초안 작성 (완료 기준 정의)
+
+**Generator (tdd-guide + 코딩)**:
+- 한 번에 한 기능 구현 + git 버전 관리
+- 각 기능 완료 후 자기 평가 (단, 최종 판정은 Evaluator가)
+
+**Evaluator (evaluator 에이전트)**:
+- 실행 중인 앱을 **직접 조작** (browser-use/curl)
+- Sprint Contract 기준으로 PASS/FAIL/PARTIAL 판정
+- 구체적 수정 제안 포함한 피드백
+
+### 파일 기반 에이전트 통신
+
+에이전트 간 통신은 **파일**을 통해 이루어진다. 구두 전달이 아닌 구조화된 문서로 합의를 유지한다.
+
+```
+.claude/tasks/<작업명>/
+├── plan.md          ← Planner가 작성, Generator가 참조
+├── contract.md      ← Planner 초안 → Generator-Evaluator 합의
+├── progress.md      ← Generator가 업데이트
+├── evaluation.md    ← Evaluator가 작성, Generator가 참조
+├── context.md       ← 모든 에이전트가 업데이트
+└── failures.md      ← 모든 에이전트가 업데이트
+```
+
+| 파일 | 작성자 | 소비자 | 역할 |
+|------|--------|--------|------|
+| plan.md | Planner | Generator | 무엇을 만들 것인가 |
+| contract.md | Planner → 합의 | Evaluator | "완료"의 정의 |
+| progress.md | Generator | 전체 | 현재 어디까지 왔는가 |
+| evaluation.md | Evaluator | Generator | 무엇이 통과/실패인가 |
+
+### 실전 흐름 예시
+
+```
+1. /plan "브라우저 기반 DAW 구축"
+   → architect: 제품 사양 확장 + contract.md 초안
+
+2. /begin "browser-daw"
+   → 5개 문서 생성, contract.md에 완료 기준 채우기
+
+3. /refine "DAW 핵심 기능 구현" --max-iter 15
+   → Generator: 기능별 구현 + 커밋
+   → Verify 단계마다 /evaluate 호출
+   → Evaluator: PASS/FAIL 판정 → evaluation.md 작성
+   → Generator: 피드백 반영 → 다음 iteration
+   → context 과부하 시 → progress.md에 상태 기록 → context reset
+
+4. Evaluator APPROVE → /done
+```
+
+---
+
+## Context Reset 전략
+
+> 모델이 context window가 차오르면 **맥락 불안(context anxiety)**이 발생한다.
+
+### 증상
+
+- 조기 완료 선언 ("이 정도면 충분합니다")
+- 응답 품질 저하 (세부사항 누락, 반복)
+- 기존 코드를 잊고 중복 작성
+
+### 대응
+
+compaction(자동 압축)만으로는 부족하다. **구조화된 핸드오프**로 상태를 전달한다.
+
+```
+Context 과부하 감지
+  ↓
+progress.md + context.md에 현재 상태 기록
+  ↓
+"Context reset 후 이 파일들을 읽고 이어서 진행하세요" 메시지
+  ↓
+새 context에서 5개 추적 문서 로드 → 작업 재개
+```
+
+**Refine Loop에서**: iteration 5회+ 진행 후 품질 저하 시 자동 감지
+**Ralph Loop에서**: 매 라운드가 fresh context — 이미 구현됨 (`scope-state.json`)
+
+---
+
+## 품질 루브릭 시스템
+
+> *"주관적 판단도 기준을 정의하면 측정 가능하다."*
+
+### 범용 루브릭 (contract.md에 적용)
+
+| 영역 | 기준 | 측정 방법 |
+|------|------|----------|
+| **기능성** | 사용자가 핵심 작업을 완료할 수 있는가 | 라이브 클릭스루 (browser-use) |
+| **설계 품질** | 색상, 타이포, 레이아웃이 조화로운가 | 스크린샷 + 일관성 체크 |
+| **독창성** | 맞춤형 결정이 있는가 vs AI 템플릿 그대로인가 | 코드 리뷰 |
+| **장인정신** | 간격 일관성, 에러 처리, 엣지 케이스 | 엣지 케이스 테스트 |
+
+### 프롬프트 언어의 영향
+
+프롬프트에 사용하는 언어가 품질 수렴 방향을 결정한다:
+- "박물관 수준의 디자인" → 시각적 수렴 유도 (미학적 전환까지)
+- "프로덕션 레벨" → 기능적 완성도 수렴
+- "MVP" → 핵심 기능만 빠르게 수렴
+
+---
+
+## Evaluator 캘리브레이션
+
+> *"초기 실행에서는 합법적 문제를 식별한 후 자신을 설득해 괜찮다고 판단했다."*
+
+LLM은 자신이 생성한 결과물에 관대하다. Evaluator도 예외가 아니므로 **단계적 조율**이 필요하다.
+
+- **1회차**: 방향 피드백 중심 (관대 허용)
+- **2회차~**: Contract 기준 엄격 적용. 부분 구현 = FAIL, 스크린샷 증거 필수
+- **3회차~**: 세밀한 품질 지적 (간격, 에러 처리, 엣지 케이스)
+
+판정 규칙 상세: `evaluator` 에이전트 정의 참조.
+
+---
+
+## 비용-품질 트레이드오프
+
+| 티어 | 투자 | 패턴 | 적합한 작업 |
+|------|------|------|-----------|
+| **Quick** | $1~10, 20분 | 단일 에이전트 | 버그 수정, 유틸리티, 스크립트 |
+| **Standard** | $10~50, 1~2시간 | /refine (단일 Generator) | 중간 규모 기능, 리팩토링 |
+| **Deep** | $50~200, 3~6시간 | Planner → Generator ↔ Evaluator | 풀스택 앱, 복잡한 UI, 장시간 개발 |
+
+**핵심 인사이트**: Quick 티어에서 기능이 "완전히 손상"인 작업이 Deep 티어에서 "완전히 작동"이 된다. 비용이 22배 늘어도 품질이 20배+ 개선되면 합리적이다.
+
+### 티어 선택 기준
+
+```
+작업 복잡도 판단
+  ├─ 파일 1~3개 수정        → Quick
+  ├─ 파일 5~15개, 기능 1~2개 → Standard
+  └─ 풀스택, UI+API+DB 통합  → Deep
+```
+
+---
+
+## 하네스 진화 원칙
+
+> *"모델이 개선될수록 스캐폴딩의 필요성이 줄어들지만, 새로운 능력을 활용한 더 복잡한 작업이 활성화된다."*
+
+### 원칙
+
+1. **스캐폴딩 축소**: 모델이 더 오래 집중하고, 더 큰 코드베이스를 다루면 → 스프린트 분해 같은 보조 구조를 제거
+2. **복잡성 상향**: 줄어든 스캐폴딩 비용으로 → 더 야심찬 작업을 시도 (DAW, 게임 엔진 등)
+3. **하네스 공간은 이동한다**: 흥미로운 하네스 조합의 공간이 축소되지 않고, 더 높은 복잡도로 이동
+
+### 실천
+
+- Opus 4.5에서 필요했던 스프린트 분해가 Opus 4.6에서 불필요해짐
+- **정기적으로 하네스를 재평가**: 모델 업그레이드 후 기존 스캐폴딩이 여전히 필요한지 확인
+- **새 능력 발견 시 하네스에 반영**: 모델이 새로 할 수 있는 것을 활용하는 패턴 추가

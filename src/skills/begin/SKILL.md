@@ -1,20 +1,20 @@
 ---
 name: begin
-description: "작업 시작 시 4개 시스템 문서(계획/진행/컨텍스트/실패일지) 자동 생성. /begin \"작업명\" — 작업 디렉토리와 추적 문서를 한 번에 생성. 새 기능, 리팩토링, 버그 수정 등 유의미한 작업 시작 시 사용."
+description: "작업 시작 시 5개 시스템 문서(계획/진행/컨텍스트/실패일지/Sprint Contract) 자동 생성. /begin \"작업명\" — 작업 디렉토리와 추적 문서를 한 번에 생성. 새 기능, 리팩토링, 버그 수정 등 유의미한 작업 시작 시 사용."
 user_invocable: true
 argument-hint: <"작업명"> [--scope 설명]
 ---
 
 # Begin — 작업 시작 문서 생성
 
-유의미한 작업을 시작할 때 4개의 추적 문서를 자동 생성한다.
+유의미한 작업을 시작할 때 5개의 추적 문서를 자동 생성한다.
 계획 → 실행 → 검증 사이클에서 컨텍스트 유실을 방지한다.
 
 ## 명령어
 
 | 명령 | 설명 | 예시 |
 |------|------|------|
-| `"작업명"` | 작업 디렉토리 + 4개 문서 생성 | `/begin "스킬셋 점검"` |
+| `"작업명"` | 작업 디렉토리 + 5개 문서 생성 | `/begin "스킬셋 점검"` |
 | `status` | 현재 활성 작업 목록 표시 | `/begin status` |
 | `close "작업명"` | 작업 완료 처리 (진행문서에 기록) | `/begin close "스킬셋 점검"` |
 
@@ -25,7 +25,8 @@ argument-hint: <"작업명"> [--scope 설명]
 ├── plan.md        — 목표, 범위, 우선순위, 단계별 계획
 ├── progress.md    — 현재 상태, 완료 항목, 다음 단계
 ├── context.md     — 결정 사항, 참조 정보, 발견한 것
-└── failures.md    — 시도한 것, 실패 원인, 교훈
+├── failures.md    — 시도한 것, 실패 원인, 교훈
+└── contract.md    — Sprint Contract: 기능별 "완료" 정의 (Evaluator 평가 기준)
 ```
 
 ## 실행 로직
@@ -58,7 +59,7 @@ mkdir -p "$TASK_DIR"
 
 이미 존재하면 "이미 진행 중인 작업입니다. 문서를 열까요?" 확인.
 
-#### Step 2: 4개 문서 생성
+#### Step 2: 5개 문서 생성
 
 **plan.md**:
 ```markdown
@@ -136,6 +137,34 @@ mkdir -p "$TASK_DIR"
 -->
 ```
 
+**contract.md** (Sprint Contract — Generator-Evaluator 분리 패턴):
+```markdown
+# <작업명> — Sprint Contract
+
+> Generator(코드 작성)와 Evaluator(품질 검증)가 "완료"의 정의에 합의하는 문서.
+> 이 기준이 없으면 Evaluator가 주관적으로 판단하여 관대해진다.
+
+## 완료 기준
+
+| # | 기능/항목 | 완료 조건 | 검증 방법 |
+|---|----------|----------|----------|
+| 1 | (기능명) | (구체적, 검증 가능한 조건) | (UI 클릭스루 / API curl / 테스트) |
+
+## 품질 루브릭
+(harness.md 범용 루브릭 기반 + 프로젝트별 커스텀 기준 추가)
+
+| 영역 | 기준 | 측정 방법 |
+|------|------|----------|
+| | | |
+
+## 범위 밖 (이번 스프린트에서 하지 않는 것)
+-
+
+## 합의
+- Generator: (확인 시 날짜)
+- Evaluator: (확인 시 날짜)
+```
+
 #### Step 3: 완료 보고
 
 ```
@@ -145,8 +174,9 @@ mkdir -p "$TASK_DIR"
 - progress.md: ✓
 - context.md: ✓
 - failures.md: ✓
+- contract.md: ✓ (완료 기준 정의 필요)
 
-다음: plan.md에 목표와 범위를 작성하세요.
+다음: plan.md에 목표와 범위를 작성하고, contract.md에 완료 기준을 정의하세요.
 ```
 
 ### `status` — 활성 작업 목록
@@ -174,6 +204,8 @@ ls -d .claude/tasks/*/
 | 새로운 사실 발견 시 | context.md |
 | 시도가 실패했을 때 | failures.md |
 | 커밋할 때 | progress.md (완료 항목 이동) |
+| 기능 구현 완료 시 | contract.md (완료 기준 확인) |
+| 평가 결과 수신 시 | evaluation.md → contract.md 기준 비교 |
 
 ## Gotchas
 

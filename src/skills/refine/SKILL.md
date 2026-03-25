@@ -198,6 +198,52 @@ Refine Loop가 ON이면 다음 규칙을 따르세요:
 5. **작업 완료 시** 반드시 `<promise>REFINE_DONE</promise>` 출력
 6. **완료 조건**: 모든 테스트 통과 + 빌드 성공 + 요구사항 충족
 
+## Context Reset 전략
+
+장시간 실행 시 context window가 차오르면 **맥락 불안(context anxiety)**이 발생한다.
+모델이 조기 완료를 선언하거나 품질이 떨어지는 증상이 나타난다.
+
+### 인수인계 파일 활용
+
+Context가 무거워질 때 다음 파일에 현재 상태를 기록하고 context reset을 수행한다:
+
+```
+.claude/tasks/<작업명>/
+├── progress.md    — 현재 iteration, 완료/미완료 항목
+├── context.md     — 핵심 결정사항, 발견한 것
+├── failures.md    — 시도-실패-원인 (같은 실수 방지)
+└── contract.md    — 완료 기준 (drift 방지)
+```
+
+Reset 후 새 context에서 이 4개 파일을 읽으면 **손실 없이 작업을 이어갈 수 있다**.
+
+### Reset 시점 판단
+
+- iteration 5회+ 진행 후 응답 품질 저하 감지 시
+- 긴 에러 로그가 context를 지배할 때
+- 전략을 근본적으로 바꿔야 할 때
+
+## Generator-Evaluator 분리 모드
+
+`/refine` 루프의 Verify 단계에서 `/evaluate` 커맨드로 **별도 evaluator 에이전트**를 호출할 수 있다.
+
+```
+[Refine iteration]
+Plan → Execute → Verify(/evaluate) → Record
+                    ↑
+            evaluator 에이전트가 라이브 앱을 검증
+            contract.md 기준으로 PASS/FAIL 판정
+```
+
+### 적용 기준
+
+| 작업 유형 | 분리 필요 | 이유 |
+|----------|----------|------|
+| 풀스택 앱 개발 | **필수** | UI + API + DB 통합 검증 필요 |
+| UI/디자인 작업 | **필수** | 주관적 품질 → 루브릭 기반 평가 |
+| 라이브러리/유틸리티 | 선택 | 테스트 통과만으로 충분한 경우 |
+| 버그 수정 | 선택 | 재현 테스트로 검증 가능 |
+
 ## Gotchas
 
 > **필수**: 오류 발생 시 우회 전에 여기 기록. 형식: **원인** — 증상, 근본 원인, 방지책. (Gotcha-First 원칙)
@@ -206,3 +252,5 @@ Refine Loop가 ON이면 다음 규칙을 따르세요:
 2. **동일 전략 반복** — 실패한 접근을 미세 수정만으로 재시도. stagnation 감지 시 근본적으로 다른 전략을 시도해야 한다.
 3. **Tidy와 기능을 한 커밋에 섞기** — 정리 커밋과 기능 커밋은 반드시 분리.
 4. **Plan 단계 생략** — 바로 코딩에 들어가는 경향. 각 iteration에서 Plan을 먼저 하고 방향을 잡아야 한다.
+5. **자기 평가 관대 편향** — 자신이 작성한 코드를 스스로 "괜찮다"고 판단하는 경향. 풀스택/UI 작업에서는 반드시 evaluator 에이전트로 분리.
+6. **Context 과부하 무시** — iteration 7-8회차에서 품질이 떨어지는데 계속 진행. progress.md에 상태 기록 후 context reset.
