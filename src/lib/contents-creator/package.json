@@ -1,0 +1,19 @@
+{
+  "name": "contents-creator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "URL/파일/폴더 → 구조화된 한글 마크다운 + 이미지 생성 파이프라인",
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^1.42.0",
+    "@mozilla/readability": "^0.6.0",
+    "dotenv": "^17.3.1",
+    "linkedom": "^0.18.12",
+    "pdfjs-dist": "^5.4.624",
+    "playwright": "^1.58.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0"
+  }
+}

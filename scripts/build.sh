@@ -56,10 +56,17 @@ echo "  → claude: $(ls "${DIST_DIR}/claude/skills/" | wc -l | tr -d ' ') 스�
 echo "  → codex: $(ls "${DIST_DIR}/codex/skills/" | wc -l | tr -d ' ') 스킬"
 
 # ── 1.5. 공유 라이브러리 (contents-creator 등) ──
-echo "[1.5/8] 라이브러리 복사..."
+echo "[1.5/8] 라이브러리 복사 + 의존성 설치..."
 if [ -d "${SRC_DIR}/lib" ]; then
   cp -r "${SRC_DIR}/lib" "${DIST_DIR}/claude/lib"
-  echo "  → claude: lib/ $(find "${DIST_DIR}/claude/lib" -type f | wc -l | tr -d ' ') 파일"
+  # 각 라이브러리의 package.json이 있으면 npm install 실행
+  for lib_dir in "${DIST_DIR}/claude/lib/"*/; do
+    if [ -f "${lib_dir}/package.json" ]; then
+      echo "  → npm install: $(basename "$lib_dir")"
+      (cd "$lib_dir" && npm install --production --silent 2>&1 | tail -1)
+    fi
+  done
+  echo "  → claude: lib/ $(find "${DIST_DIR}/claude/lib" -type f -not -path "*/node_modules/*" | wc -l | tr -d ' ') 파일 (+ node_modules)"
 fi
 
 # ── 2. Hooks (Claude 전용) ──
