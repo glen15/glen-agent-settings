@@ -13,17 +13,17 @@ allowed-tools: Bash, Read, Write, Glob, Grep
 ## 프로젝트 경로
 
 ```
-CONTENTS_CREATOR_DIR="${CONTENTS_CREATOR_DIR:-__CONTENTS_CREATOR_DIR__}"
+LIB_DIR="__CLAUDE_HOME__/lib/contents-creator"
 ```
 
-환경변수 `CONTENTS_CREATOR_DIR`이 설정되어 있으면 사용, 없으면 빌드 시 치환된 기본값 사용.
+`src/lib/contents-creator/` 내부에 CLI와 라이브러리가 포함되어 있다. 빌드 시 `__CLAUDE_HOME__` 플레이스홀더가 실제 경로로 치환된다.
 
 ## 워크플로우 (3단계)
 
 ### Step 1: 소스 읽기
 
 ```bash
-cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts read $ARGUMENTS[0]
+npx tsx "${LIB_DIR}/cli.ts" read $ARGUMENTS[0]
 ```
 
 이 명령은 JSON을 stdout에 출력한다. `text` 필드에 원문 텍스트가 담긴다.
@@ -87,13 +87,13 @@ Step 1의 `text`를 분석하여 아래 스키마의 JSON을 생성한다.
 ### Step 3: 렌더링 (+ 이미지)
 
 ```bash
-cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --output file --output-dir "$(pwd)"
+npx tsx "${LIB_DIR}/cli.ts" render tmp/plan.json --output file --output-dir "$(pwd)"
 ```
 
 이미지 생성이 필요하면:
 
 ```bash
-cd "${CONTENTS_CREATOR_DIR}" && npx tsx src/index.ts render tmp/plan.json --images --output file --output-dir "$(pwd)"
+npx tsx "${LIB_DIR}/cli.ts" render tmp/plan.json --images --output file --output-dir "$(pwd)"
 ```
 
 결과물은 **현재 세션의 프로젝트 디렉토리**에 저장된다:

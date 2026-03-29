@@ -55,6 +55,13 @@ done
 echo "  → claude: $(ls "${DIST_DIR}/claude/skills/" | wc -l | tr -d ' ') 스킬"
 echo "  → codex: $(ls "${DIST_DIR}/codex/skills/" | wc -l | tr -d ' ') 스킬"
 
+# ── 1.5. 공유 라이브러리 (contents-creator 등) ──
+echo "[1.5/8] 라이브러리 복사..."
+if [ -d "${SRC_DIR}/lib" ]; then
+  cp -r "${SRC_DIR}/lib" "${DIST_DIR}/claude/lib"
+  echo "  → claude: lib/ $(find "${DIST_DIR}/claude/lib" -type f | wc -l | tr -d ' ') 파일"
+fi
+
 # ── 2. Hooks (Claude 전용) ──
 echo "[2/8] Hooks 빌드..."
 cp "${SRC_DIR}/hooks/root/"*.sh "${DIST_DIR}/claude/hooks/" 2>/dev/null || true
@@ -101,7 +108,6 @@ PLACEHOLDERS=(
   "__OTEL_ENDPOINT__|${OTEL_ENDPOINT:-http://localhost:4317}"
   "__OTEL_SERVICE_NAME__|${OTEL_SERVICE_NAME:-claude-code-user}"
   "__OTEL_RESOURCE_ATTRIBUTES__|${OTEL_RESOURCE_ATTRIBUTES:-team.id=default,user.id=user,user.name=user}"
-  "__CONTENTS_CREATOR_DIR__|${CONTENTS_CREATOR_DIR:-${HOME}/glen-contents-creator}"
 )
 
 # dist/claude 내 모든 텍스트 파일에서 플레이스홀더 치환

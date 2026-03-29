@@ -3,11 +3,10 @@
  * 단일 이미지 생성 래퍼.
  * Usage: npx tsx generate.ts "이미지 설명" [--resolution 1K|4K] [--output-dir ./path]
  */
+import 'dotenv/config';
+import { generateImage } from '../../../lib/contents-creator/core/image-gen.ts';
 
 async function main() {
-  const CONTENTS_CREATOR_DIR = process.env.CONTENTS_CREATOR_DIR || '__CONTENTS_CREATOR_DIR__';
-  const { generateImage } = await import(`${CONTENTS_CREATOR_DIR}/src/core/image-gen.ts`);
-
   const args = process.argv.slice(2);
   if (args.length === 0 || args[0] === '--help') {
     console.log('Usage: npx tsx generate.ts "설명" [--resolution 1K|4K] [--output-dir ./path]');
