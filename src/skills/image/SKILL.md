@@ -52,3 +52,5 @@ npx tsx "${IMAGE_SKILL_DIR}/scripts/generate.ts" "__ARGS__"
 3. **output-dir 미존재** — 스크립트가 자동 생성하지만, 사용자가 기대하는 경로가 맞는지 확인.
 4. **텍스트 과다 요청** — 이미지 안에 긴 문장을 넣으려 하면 품질 저하. 라벨/키워드 수준이 최적.
 5. **top-level await 금지** — `tsx`는 기본 CJS 모드로 실행되어 top-level `await`가 `SyntaxError` 발생. 반드시 `async function main() { ... } main();` 패턴 사용. `.mjs` 래퍼는 임시방편이므로 금지.
+6. **외부 lib 의존 금지** — generate.ts가 `../../lib/contents-creator/`를 상대경로로 참조하면 배포 후 경로가 깨짐. deploy.sh가 lib/을 배포하지 않았고, SDK 버전도 불일치. 해결: generate.ts를 self-contained로 만들어 외부 의존 제거. (2026-03-30)
+7. **SDK 버전 주의** — `@google/generative-ai`(구)와 `@google/genai`(신)의 API가 다름. package.json과 import가 일치하는지 확인.

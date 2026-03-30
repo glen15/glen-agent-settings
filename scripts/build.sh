@@ -51,9 +51,14 @@ for skill_dir in "${SRC_DIR}/skills/"*/; do
       cp -r "${skill_dir}/${sub}" "${DIST_DIR}/codex/skills/${skill_name}/"
     fi
   done
+  # 스킬별 package.json이 있으면 npm install 실행
+  if [ -f "${DIST_DIR}/claude/skills/${skill_name}/package.json" ]; then
+    echo "  → npm install: skills/${skill_name}"
+    (cd "${DIST_DIR}/claude/skills/${skill_name}" && npm install --production --silent 2>&1 | tail -1)
+  fi
 done
-echo "  → claude: $(ls "${DIST_DIR}/claude/skills/" | wc -l | tr -d ' ') 스킬"
-echo "  → codex: $(ls "${DIST_DIR}/codex/skills/" | wc -l | tr -d ' ') 스킬"
+echo "  → claude: $(ls -d "${DIST_DIR}/claude/skills/"*/ 2>/dev/null | wc -l | tr -d ' ') 스킬"
+echo "  → codex: $(ls -d "${DIST_DIR}/codex/skills/"*/ 2>/dev/null | wc -l | tr -d ' ') 스킬"
 
 # ── 1.5. 공유 라이브러리 (contents-creator 등) ──
 echo "[1.5/8] 라이브러리 복사 + 의존성 설치..."

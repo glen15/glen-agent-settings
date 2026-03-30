@@ -79,6 +79,17 @@ if [ "$DEPLOY_CLAUDE" = true ]; then
   # harness.md
   do_copy "${DIST_DIR}/claude/skills/harness.md" "${CLAUDE_DIR}/skills/harness.md" 2>/dev/null || true
 
+  # 라이브러리 배포
+  echo "  [1.5/7] 라이브러리..."
+  if [ -d "${DIST_DIR}/claude/lib" ]; then
+    mkdir -p "${CLAUDE_DIR}/lib"
+    for lib_dir in "${DIST_DIR}/claude/lib/"*/; do
+      lib_name=$(basename "$lib_dir")
+      rm -rf "${CLAUDE_DIR}/lib/${lib_name}"
+      cp -r "$lib_dir" "${CLAUDE_DIR}/lib/${lib_name}"
+    done
+  fi
+
   # Hooks 배포
   echo "  [2/7] Hooks..."
   for hook_file in "${DIST_DIR}/claude/hooks/"*.sh; do
