@@ -96,6 +96,28 @@ glen-agent-settings/
 | `tdd-workflow` | TDD 우선 개발 (80%+ 커버리지) |
 | `ui-ux-pro-max` | UI/UX 디자인 인텔리전스 (67 스타일, 96 팔레트, 13 스택) |
 
+## 플러그인 (외부 스킬)
+
+`src/plugins.json`에 선언된 외부 플러그인. `deploy.sh` 실행 시 자동 설치.
+
+| 플러그인 | 마켓플레이스 | 설명 |
+|----------|-------------|------|
+| `claude-hud` | jarrodwatts/claude-hud | HUD 상태바 |
+| `notion-workspace-plugin` | makenotion/claude-code-notion-plugin | Notion 통합 |
+| `swift-lsp` | anthropics/claude-plugins-official | Swift LSP |
+| `frontend-design` | anthropics/claude-plugins-official | Stitch 디자인 MCP |
+| `slack` | anthropics/claude-plugins-official | Slack 연동 |
+| `telegram` | anthropics/claude-plugins-official | Telegram 봇 연동 |
+| `last30days` | mvanhorn/last30days-skill | 30일 딥 리서치 (Reddit, X, YouTube, TikTok, HN 등) |
+
+```bash
+# 플러그인만 설치
+bash scripts/install-plugins.sh
+
+# 미리보기
+bash scripts/install-plugins.sh --dry-run
+```
+
 ## Ralph Loop
 
 밤샘 무인 자율 코딩 오케스트레이터. 매 반복마다 fresh context로 에이전트를 실행하고, 파일시스템으로 상태를 인수인계한다.

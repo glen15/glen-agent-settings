@@ -1,0 +1,46 @@
+{
+  "description": "Claude Code 플러그인 매니페스트 — deploy.sh가 이 목록을 기반으로 플러그인을 자동 설치",
+  "marketplaces": [
+    { "name": "claude-plugins-official", "repo": "anthropics/claude-plugins-official" },
+    { "name": "claude-hud", "repo": "jarrodwatts/claude-hud" },
+    { "name": "notion-plugin-marketplace", "repo": "makenotion/claude-code-notion-plugin" },
+    { "name": "last30days-skill", "repo": "mvanhorn/last30days-skill" }
+  ],
+  "plugins": [
+    {
+      "id": "claude-hud@claude-hud",
+      "description": "Claude Code HUD 상태바",
+      "marketplace": "claude-hud"
+    },
+    {
+      "id": "notion-workspace-plugin@notion-plugin-marketplace",
+      "description": "Notion 워크스페이스 통합 (페이지, DB, 태스크)",
+      "marketplace": "notion-plugin-marketplace"
+    },
+    {
+      "id": "swift-lsp@claude-plugins-official",
+      "description": "Swift LSP 지원",
+      "marketplace": "claude-plugins-official"
+    },
+    {
+      "id": "frontend-design@claude-plugins-official",
+      "description": "Stitch 프론트엔드 디자인 MCP",
+      "marketplace": "claude-plugins-official"
+    },
+    {
+      "id": "slack@claude-plugins-official",
+      "description": "Slack 채널 연동",
+      "marketplace": "claude-plugins-official"
+    },
+    {
+      "id": "telegram@claude-plugins-official",
+      "description": "Telegram 봇 채널 연동",
+      "marketplace": "claude-plugins-official"
+    },
+    {
+      "id": "last30days@last30days-skill",
+      "description": "지난 30일 딥 리서치 (Reddit, X, YouTube, TikTok, Instagram, HN 등)",
+      "marketplace": "last30days-skill"
+    }
+  ]
+}

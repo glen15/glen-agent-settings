@@ -199,6 +199,19 @@ if [ "$DEPLOY_CODEX" = true ]; then
   echo "  ✓ Codex CLI 배포 완료"
 fi
 
+# ── 플러그인 설치 ──
+echo ""
+echo "── 플러그인 (src/plugins.json) ──"
+if [ -f "${SCRIPT_DIR}/src/plugins.json" ]; then
+  if [ "$DRY_RUN" = true ]; then
+    bash "${SCRIPT_DIR}/scripts/install-plugins.sh" --dry-run
+  else
+    bash "${SCRIPT_DIR}/scripts/install-plugins.sh"
+  fi
+else
+  echo "  [SKIP] src/plugins.json 없음"
+fi
+
 echo ""
 echo "=== 배포 완료 ==="
 if [ "$DRY_RUN" = true ]; then
