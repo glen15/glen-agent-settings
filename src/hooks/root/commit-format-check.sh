@@ -44,14 +44,25 @@ fi
 # 첫 줄만 검증
 first_line=$(printf '%s' "$msg" | head -1)
 
-# 타입 프리픽스 검증
+# ── Fail-to-Prompt 패턴 ──
+# CC 소스맵 분석 차용: 거부가 아닌 "가이드 메시지 + 차단"으로 폴백
+# Critical(타입 위반) → block + 수정 방법 안내
+# Preference(한글 누락) → warn only
+
+# 타입 프리픽스 검증 — 위반 시 block (exit 2) + 가이드
 valid_types="refine|ralph|tidy|feat|fix|test|perf|docs|style|chore|refactor"
 if ! printf '%s' "$first_line" | grep -qE "^(${valid_types})[:(]"; then
-  echo "[훅] 경고: 커밋 타입이 없거나 잘못됨 — ${first_line}" >&2
-  echo "[훅] 허용 타입: feat, fix, tidy, refactor, test, perf, docs, style, chore, refine, ralph" >&2
+  echo "" >&2
+  echo "[훅] 차단: 커밋 타입이 없거나 잘못됨" >&2
+  echo "  현재: ${first_line}" >&2
+  echo "  형식: <타입>: <한글 설명>" >&2
+  echo "  허용 타입: feat, fix, tidy, refactor, test, perf, docs, style, chore, refine, ralph" >&2
+  echo "  예시: feat: 로그인 기능 추가" >&2
+  echo "" >&2
+  exit 2
 fi
 
-# 한글 포함 여부 검증 (타입 프리픽스 뒤에 한글이 있어야 함)
+# 한글 포함 여부 검증 — 위반 시 warn only (exit 0)
 msg_body=$(printf '%s' "$first_line" | sed "s/^[a-z]*[:(][^)]*): *//; s/^[a-z]*: *//")
 if [ -n "$msg_body" ] && ! printf '%s' "$msg_body" | grep -qP '[\x{AC00}-\x{D7A3}]'; then
   echo "[훅] 경고: 커밋 메시지에 한글이 없음 — ${first_line}" >&2

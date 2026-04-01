@@ -46,6 +46,7 @@ init_scope_state() {
       current_round: 0,
       total_changes: 0,
       consecutive_zero_rounds: 0,
+      change_history: [],
       files: $files
     }' > "$state_file"
 
@@ -259,6 +260,68 @@ check_convergence() {
   zero_rounds=$(jq '.consecutive_zero_rounds' "$state_file" 2>/dev/null || echo "0")
 
   [ "$zero_rounds" -ge "$threshold" ]
+}
+
+# ── 변경량 측정 (Diminishing Returns Detection) ──
+# CC 소스맵 분석 차용: 변경 유무뿐 아니라 변경 크기도 추적
+# 3회 연속 미미한 변경 → 정체로 판단
+DIMINISHING_THRESHOLD=10  # 이 줄 수 이하면 "미미한 변경"
+DIMINISHING_WINDOW=3      # 연속 N회 미미하면 정체
+
+# 라운드의 변경 줄 수 측정
+measure_change_magnitude() {
+  local round="$1"
+  local project_dir="${2:-$PROJECT_DIR}"
+  local lines_changed=0
+
+  if git -C "$project_dir" rev-parse "ralph-round-${round}-start" >/dev/null 2>&1; then
+    lines_changed=$(git -C "$project_dir" diff --stat "ralph-round-${round}-start" HEAD 2>/dev/null \
+      | tail -1 | grep -oE '[0-9]+ insertion|[0-9]+ deletion' \
+      | grep -oE '[0-9]+' | awk '{s+=$1}END{print s+0}')
+  fi
+
+  # working tree 변경도 포함
+  local wt_lines
+  wt_lines=$(git -C "$project_dir" diff --stat 2>/dev/null \
+    | tail -1 | grep -oE '[0-9]+ insertion|[0-9]+ deletion' \
+    | grep -oE '[0-9]+' | awk '{s+=$1}END{print s+0}')
+  lines_changed=$((lines_changed + wt_lines))
+
+  echo "$lines_changed"
+}
+
+# change_history에 라운드 기록 추가
+record_change_magnitude() {
+  local state_file="$1"
+  local round="$2"
+  local files_changed="$3"
+  local lines_changed="$4"
+
+  local tmp="${state_file}.tmp"
+  jq --argjson r "$round" --argjson f "$files_changed" --argjson l "$lines_changed" \
+    '.change_history += [{"round": $r, "files_changed": $f, "lines_changed": $l}]' \
+    "$state_file" > "$tmp" && mv "$tmp" "$state_file"
+}
+
+# 감소 수익 감지: 최근 N회 연속 미미한 변경이면 정체
+check_diminishing_returns() {
+  local state_file="$1"
+  local threshold="${2:-$DIMINISHING_THRESHOLD}"
+  local window="${3:-$DIMINISHING_WINDOW}"
+
+  local history_len
+  history_len=$(jq '.change_history | length' "$state_file" 2>/dev/null || echo "0")
+
+  [ "$history_len" -lt "$window" ] && return 1
+
+  # 최근 window개 항목의 lines_changed가 모두 threshold 이하인지 확인
+  local all_diminishing
+  all_diminishing=$(jq --argjson w "$window" --argjson t "$threshold" '
+    .change_history | .[-$w:] |
+    all(.lines_changed <= $t and .lines_changed > 0)
+  ' "$state_file" 2>/dev/null || echo "false")
+
+  [ "$all_diminishing" = "true" ]
 }
 
 # ── active 파일 목록 조회 ──

@@ -31,6 +31,7 @@ source "${SCRIPT_DIR}/lib/stagnation.sh"
 source "${SCRIPT_DIR}/lib/gate.sh"
 source "${SCRIPT_DIR}/lib/jsonl.sh"
 source "${SCRIPT_DIR}/lib/convergence.sh"
+source "${SCRIPT_DIR}/lib/recovery.sh"
 source "${SCRIPT_DIR}/failures/logger.sh"
 
 # ── 기본값 ──
@@ -303,24 +304,50 @@ run_convergence_loop() {
     run_ai_agent "$augmented_prompt" "$iter_log"
     local exit_code=$?
 
-    # ── rate limit 감지 ──
-    if [ -f "$iter_log" ] && detect_rate_limit "$iter_log"; then
-      backoff_attempt=$((backoff_attempt + 1))
-      emit_jsonl "RATE_LIMIT" "Rate limit 감지" "attempt=${backoff_attempt}"
-      wait_with_backoff "$backoff_attempt" "${LOG_DIR}/loop.log"
-      round=$((round - 1))
-      continue
-    fi
+    # ── 에러 복구 캐스케이드 (cheapest-first) ──
+    if [ -f "$iter_log" ]; then
+      # Tier: prompt-too-long (무료 복구 우선)
+      if detect_prompt_too_long "$iter_log"; then
+        if attempt_recovery "prompt_too_long" "$state_file" "$LOG_DIR"; then
+          round=$((round - 1))
+          continue
+        else
+          echo "[오류] 프롬프트 초과 복구 소진. 사용자 개입 필요." >&2
+          finalize_session "$LOG_DIR" "recovery_exhausted"
+          break
+        fi
+      fi
 
-    # ── provider 장애 감지 ──
-    if [ -f "$iter_log" ] && detect_provider_error "$iter_log"; then
-      emit_jsonl "PROVIDER_ERROR" "Provider 장애 감지. 10분 대기"
-      sleep 600
-      round=$((round - 1))
-      continue
+      # Tier: max output tokens (무료 복구 우선)
+      if detect_max_output "$iter_log"; then
+        if attempt_recovery "max_output" "$state_file" "$LOG_DIR"; then
+          round=$((round - 1))
+          continue
+        fi
+        # max_output은 치명적이지 않으므로 계속 진행
+      fi
+
+      # Tier: rate limit (exponential backoff)
+      if detect_rate_limit "$iter_log"; then
+        backoff_attempt=$((backoff_attempt + 1))
+        emit_jsonl "RATE_LIMIT" "Rate limit 감지" "attempt=${backoff_attempt}"
+        wait_with_backoff "$backoff_attempt" "${LOG_DIR}/loop.log"
+        round=$((round - 1))
+        continue
+      fi
+
+      # Tier: provider 장애 (고비용 — 10분 대기)
+      if detect_provider_error "$iter_log"; then
+        emit_jsonl "PROVIDER_ERROR" "Provider 장애 감지. 10분 대기"
+        sleep 600
+        round=$((round - 1))
+        continue
+      fi
     fi
 
     backoff_attempt=0
+    # 정상 실행 시 복구 상태 리셋
+    reset_recovery "$state_file"
 
     # ── 라운드 결과 처리 ──
     local changes_count
@@ -335,11 +362,18 @@ run_convergence_loop() {
         "round=${round}" "excluded=${excluded_count}"
     fi
 
+    # ── 변경량 측정 (diminishing returns) ──
+    local lines_changed
+    lines_changed=$(measure_change_magnitude "$round")
+    record_change_magnitude "$state_file" "$round" "$changes_count" "$lines_changed"
+
     local summary
     summary=$(generate_round_summary "$state_file" "$round" "$changes_count" "$excluded_count")
+    summary="${summary} | 변경줄수: ${lines_changed}"
 
     emit_jsonl "ROUND_END" "$summary" \
-      "round=${round}" "changes=${changes_count}" "excluded=${excluded_count}"
+      "round=${round}" "changes=${changes_count}" "excluded=${excluded_count}" \
+      "lines_changed=${lines_changed}"
     echo "[$(date '+%H:%M:%S')] $summary" >&2
 
     # ── 수렴 체크 ──
@@ -347,6 +381,15 @@ run_convergence_loop() {
       emit_jsonl "CONVERGED" "수렴 완료" "round=${round}" "threshold=${CONVERGENCE_THRESHOLD}"
       echo "[라운드 #${round}] 수렴 완료! (${CONVERGENCE_THRESHOLD}라운드 연속 변경 없음)" >&2
       finalize_session "$LOG_DIR" "converged"
+      break
+    fi
+
+    # ── 감소 수익 감지 (변경은 있지만 미미한 반복) ──
+    if check_diminishing_returns "$state_file"; then
+      emit_jsonl "DIMINISHING_RETURNS" "감소 수익 감지 — 변경은 있으나 미미한 반복" \
+        "round=${round}" "threshold=${DIMINISHING_THRESHOLD}" "window=${DIMINISHING_WINDOW}"
+      echo "[라운드 #${round}] 감소 수익 감지! (${DIMINISHING_WINDOW}회 연속 ${DIMINISHING_THRESHOLD}줄 이하 변경)" >&2
+      finalize_session "$LOG_DIR" "diminishing_returns"
       break
     fi
 
