@@ -39,6 +39,7 @@ ctx="[Task] 활성 작업: $(printf '%b' "$active_tasks" | tr '\n' ', ' | sed 's
 
 jq -n --arg ctx "$ctx" '{
   "hookSpecificOutput": {
+    "hookEventName": "UserPromptSubmit",
     "additionalContext": $ctx
   }
 }'

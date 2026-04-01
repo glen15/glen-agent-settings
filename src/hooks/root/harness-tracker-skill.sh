@@ -6,7 +6,7 @@ DB_PATH="${HOME}/.claude/harness-usage.db"
 [ ! -f "$DB_PATH" ] && exit 0
 
 input=$(cat)
-prompt=$(printf '%s' "$input" | jq -r '.user_prompt // ""' 2>/dev/null || echo "")
+prompt=$(printf '%s' "$input" | jq -r '.prompt // ""' 2>/dev/null || echo "")
 
 # /스킬명 패턴 감지
 skill_match=$(printf '%s' "$prompt" | grep -oE '^/[a-z][a-z0-9-]*' || echo "")

@@ -54,6 +54,7 @@ jq -n --arg ctx "[Refine] ${iteration}/${max_iterations} | phase:${phase} | 정�
 (5) 완료 조건: 모든 테스트 통과 + 빌드 성공 + 요구사항 충족" \
   '{
     "hookSpecificOutput": {
+      "hookEventName": "UserPromptSubmit",
       "additionalContext": $ctx
     }
   }'
