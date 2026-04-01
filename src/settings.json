@@ -205,7 +205,7 @@
     "notion-workspace-plugin@notion-plugin-marketplace": true,
     "swift-lsp@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": false,
-    "slack@claude-plugins-official": true
+    "slack@claude-plugins-official": false
   },
   "language": "Korean",
   "effortLevel": "high",
