@@ -116,6 +116,21 @@ if [ "$new_stagnation_count" -ge "$stagnation_limit" ]; then
   stagnation_warning=" | STAGNATION_LIMIT 도달! 사용자에게 전략 변경을 확인하세요."
 fi
 
+# ── Context 압력 감지 (claw-code compact.rs 패턴) ──
+context_warning=""
+context_level="low"
+estimated_tokens=0
+if [ -n "$TRANSCRIPT_PATH" ] && [ -f "$TRANSCRIPT_PATH" ]; then
+  pressure_result=$("${SCRIPT_DIR}/detect-context-pressure.sh" "$TRANSCRIPT_PATH" "$iteration" 2>/dev/null || echo '{"pressure_level":"low","warning":"","estimated_tokens":0}')
+  context_level=$(echo "$pressure_result" | jq -r '.pressure_level // "low"' 2>/dev/null || echo "low")
+  estimated_tokens=$(echo "$pressure_result" | jq -r '.estimated_tokens // 0' 2>/dev/null || echo "0")
+  if [ "$context_level" = "high" ]; then
+    context_warning=" | CONTEXT_PRESSURE_HIGH(${estimated_tokens}tok)! progress.md에 상태 기록 후 context reset 권장."
+  elif [ "$context_level" = "medium" ]; then
+    context_warning=" | ctx:${estimated_tokens}tok(medium)"
+  fi
+fi
+
 # ── 다음 iteration 준비 ──
 next_iter=$((iteration + 1))
 
@@ -143,8 +158,10 @@ log_entry=$(jq -n \
   --argjson stag "$new_stagnation_count" \
   --arg cost "$total_cost" \
   --arg strategy "$current_strategy" \
+  --arg ctx_level "$context_level" \
+  --argjson ctx_tokens "$estimated_tokens" \
   --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-  '{iteration: $iter, phase: $phase, stagnation: $stag, cost_usd: $cost, strategy: $strategy, timestamp: $ts}')
+  '{iteration: $iter, phase: $phase, stagnation: $stag, cost_usd: $cost, strategy: $strategy, context_level: $ctx_level, context_tokens: $ctx_tokens, timestamp: $ts}')
 jq --argjson entry "$log_entry" '.iteration_log += [$entry]' "$REFINE_STATE_JSON" > "${REFINE_STATE_JSON}.tmp" \
   && mv "${REFINE_STATE_JSON}.tmp" "$REFINE_STATE_JSON"
 
@@ -164,7 +181,7 @@ if [ "$token_budget" != "0" ]; then
 fi
 
 # ── Block 응답 출력 ──
-system_msg="[Refine] ${next_iter}/${max_iterations} | phase:${next_phase} | 정체:${new_stagnation_count}/${stagnation_limit} | ${cost_display}${elapsed_display}${stagnation_warning}
+system_msg="[Refine] ${next_iter}/${max_iterations} | phase:${next_phase} | 정체:${new_stagnation_count}/${stagnation_limit} | ${cost_display}${elapsed_display}${stagnation_warning}${context_warning}
 규칙: (1) 커밋 refine(${next_iter}/${max_iterations}) (2) Tidy First (3) 완료 시 <promise>${completion_promise}</promise>"
 
 jq -n \
