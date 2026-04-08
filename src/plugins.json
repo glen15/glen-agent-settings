@@ -4,7 +4,8 @@
     { "name": "claude-plugins-official", "repo": "anthropics/claude-plugins-official" },
     { "name": "claude-hud", "repo": "jarrodwatts/claude-hud" },
     { "name": "notion-plugin-marketplace", "repo": "makenotion/claude-code-notion-plugin" },
-    { "name": "last30days-skill", "repo": "mvanhorn/last30days-skill" }
+    { "name": "last30days-skill", "repo": "mvanhorn/last30days-skill" },
+    { "name": "frontend-slides", "repo": "zarazhangrui/frontend-slides" }
   ],
   "plugins": [
     {
@@ -41,6 +42,11 @@
       "id": "last30days@last30days-skill",
       "description": "지난 30일 딥 리서치 (Reddit, X, YouTube, TikTok, Instagram, HN 등)",
       "marketplace": "last30days-skill"
+    },
+    {
+      "id": "frontend-slides@frontend-slides",
+      "description": "제로 디펜던시 HTML 프레젠테이션 생성 (12 스타일 프리셋, PPT 변환, PDF export)",
+      "marketplace": "frontend-slides"
     }
   ]
 }
