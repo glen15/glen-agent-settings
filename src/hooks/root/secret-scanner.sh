@@ -45,7 +45,8 @@ patterns=(
 )
 
 for pattern in "${patterns[@]}"; do
-  if printf '%s' "$content" | grep -qEi "$pattern"; then
+  # `--` 로 옵션 파싱 종료. macOS BSD grep이 `-----BEGIN ...` 같은 패턴을 옵션으로 오해하는 것 방지.
+  if printf '%s' "$content" | grep -qEi -- "$pattern"; then
     echo "[훅] 차단: 시크릿 패턴 감지 — $file_path" >&2
     echo "[훅] 환경변수를 사용하세요 (process.env.*, os.environ 등)" >&2
     exit 2
