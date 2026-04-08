@@ -47,7 +47,7 @@ argument-hint: ["작업 설명"]
 
 **cwd → projectId 매핑** (하드코딩으로 list_projects 호출 제거):
 - 매핑은 사용자별 설정. 최초 사용 시 `mcp__nxtflow__list_projects`로 조회 후 여기에 추가.
-- 예시: `/path/to/project` → `project-uuid`
+- `/Users/glen/Desktop/work/glen-agent-settings` → `56916386-9e1f-4277-9e5a-51ca584d79f1` (Glen Agent Settings)
 
 #### 3-1. 기존 태스크 매칭 확인
 
