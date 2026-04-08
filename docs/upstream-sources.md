@@ -41,6 +41,16 @@
 - **통합 방식**: PyPI/태그 기반 pip 설치 + 스킬 래퍼. Web UI에 없는 기능까지 프로그래매틱 접근
 - **주의**: `main` 브랜치 직접 설치 금지. 반드시 PyPI 또는 릴리스 태그 사용
 
+### better-icons — 200,000+ 아이콘 검색/가져오기
+- **스킬**: `better-icons`
+- **출처**: https://github.com/better-auth/better-icons (892 stars, MIT)
+- **라이선스**: MIT License
+- **통합 방식**: SKILL.md 복제 (본문 영어 유지) + glen frontmatter 조정 (user_invocable, 한글 description, argument-hint)
+- **의존성**: `npm install -g better-icons` CLI (또는 npx/bunx). MCP 서버 모드 지원.
+- **Gotchas 추가**: glen-design의 anti-emoji 정책 연결 (UI 아이콘은 이모지 대신 Iconify 컬렉션)
+- **용도**: Lucide, Heroicons, Material Design 등 150+ 컬렉션에서 SVG 아이콘 검색·다운로드
+- **결핍 해소**: glen에 완전히 비어있던 아이콘 영역
+
 ---
 
 ## Plugins (`src/plugins.json`)
@@ -73,6 +83,23 @@
   - 파일명 정규화: 도메인 접미사 제거 (`linear.app` → `linear`, `mistral.ai` → `mistral` 등)
 - **통합일**: 2026-04-08 (커밋 `40c0ce6`)
 - **재싱크**: `./src/skills/glen-design/scripts/sync-presets.sh`
+
+### Vercel Web Interface Guidelines (참조 통합)
+- **위치**: `src/skills/glen-design/workflows/review.md`에서 Layer 2로 원격 fetch
+- **출처**:
+  - 스킬 원본: https://github.com/vercel-labs/agent-skills (24.6k stars) — `skills/web-design-guidelines/`
+  - 규칙 원본: https://github.com/vercel-labs/web-interface-guidelines (`command.md`)
+- **라이선스**: 저장소 참조 (Vercel 공식)
+- **통합 방식**: **복제하지 않음**. glen-design review 모드에 `--strict` 플래그 추가 — 실행 시 WebFetch로 최신 `command.md`를 가져와 100+ 규칙 적용
+- **카테고리**: Accessibility, Typography, Layout, Interactivity, Performance
+- **통합일**: 2026-04-08
+- **이유**: 원격 fetch 방식이 원본 스킬 철학과 일치. 항상 최신 규칙 자동 반영, 로컬 유지보수 불필요.
+
+### Taste Skill 개념 차용 검토 결과
+- **원본**: https://github.com/Leonxlnx/taste-skill (Leonxlnx)
+- **검토 결과**: **흡수하지 않음 — 이미 중복**
+- **근거**: `glen-design/resources/taste-rules.md`에 이미 4개 다이얼 (Creativity/Density/Variance/Motion) 존재. 원본의 3축 (DESIGN_VARIANCE/MOTION_INTENSITY/VISUAL_DENSITY)과 개념 동일.
+- **기록 이유**: 향후 같은 스킬을 재평가할 때 중복 작업 방지
 
 ---
 

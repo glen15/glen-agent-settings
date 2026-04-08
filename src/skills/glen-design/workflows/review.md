@@ -7,7 +7,17 @@ UI 코드 작성 후 배포 전에 실행하는 품질 체크리스트.
 ```
 /design review
 /design review --file ./src/pages/index.tsx
+/design review --strict   # Vercel Web Interface Guidelines 100+ 규칙 추가 적용
 ```
+
+## 검증 레이어
+
+1. **Layer 1 — glen 내장 체크리스트** (아래 7개 섹션, 항상 실행)
+2. **Layer 2 — Vercel Web Interface Guidelines** (`--strict` 또는 사용자 요청 시)
+   - 원격 fetch: `https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md`
+   - 출처: [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) web-design-guidelines 스킬
+   - 100+ 규칙: Accessibility (ARIA, 키보드, 시맨틱 HTML), Typography (ellipsis, curly quotes, tabular-nums), Layout (truncate, CLS 방지, lazy loading), Interactivity (focus-visible, autocomplete, 에러 처리), Performance (가상화, preconnect, font preload)
+   - WebFetch로 최신 규칙을 가져와 지정된 파일에 적용 → `file:line` 형식으로 출력
 
 ## 체크리스트
 
@@ -89,9 +99,42 @@ browser-use eval "document.documentElement.scrollWidth > document.documentElemen
 browser-use close
 ```
 
+## Layer 2 — Vercel Web Interface Guidelines (선택)
+
+`--strict` 플래그 또는 "엄격한 리뷰" 요청 시 실행. 외부 의존 — 네트워크 필요.
+
+### 실행 절차
+
+1. WebFetch로 최신 규칙 로드:
+   ```
+   https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md
+   ```
+2. 사용자가 지정한 파일(`--file`) 또는 프롬프트로 받은 파일 읽기
+3. 가져온 규칙 전체에 대해 파일 검사
+4. `file:line` 형식으로 위반 항목 출력 (규칙명 + 수정 제안)
+
+### 규칙 카테고리 요약
+
+| 카테고리 | 주요 검증 항목 |
+|---------|--------------|
+| **Accessibility** | 아이콘 버튼 `aria-label`, 폼 `<label>`, 키보드 핸들러, 시맨틱 HTML, 헤딩 계층, `scroll-margin-top` |
+| **Typography** | ellipsis `…` (… 아님), curly quotes, `&nbsp;`, `tabular-nums`, `text-wrap: balance` |
+| **Layout** | `truncate`, `line-clamp`, `min-w-0`, 빈 상태, 이미지 `width`/`height`, `loading="lazy"` |
+| **Interactivity** | `focus-visible:ring-*`, `autocomplete`, 페이스트 차단 금지, 라벨 클릭 가능, 인라인 에러 |
+| **Performance** | 리스트 >50 가상화, `preconnect`, 폰트 `preload` + `font-display: swap` |
+
+### 출력 예시
+
+```
+src/components/Button.tsx:12  [a11y] 아이콘 버튼에 aria-label 누락
+src/pages/index.tsx:45  [typography] ellipsis가 "..." — "…"로 변경
+src/layouts/Main.tsx:78  [layout] 이미지에 width/height 없음 — CLS 위험
+```
+
 ## 결과 보고
 
 체크리스트 결과를 요약하여 보고:
 - PASS: 모든 항목 통과
 - WARN: MEDIUM 항목 미통과 (개선 권장)
 - FAIL: CRITICAL/HIGH 항목 미통과 (수정 필수)
+- STRICT-FAIL: Layer 2 Vercel 규칙 미통과 (CI 블록)
