@@ -1,5 +1,6 @@
 <!-- Source: VoltAgent/awesome-design-md (MIT License) -->
-<!-- Font substitutions: None -->
+<!-- Synced by: src/skills/glen-design/scripts/sync-presets.sh -->
+<!-- Font substitutions: see scripts/font-substitutions.tsv -->
 
 # Design System: Raycast
 
@@ -66,7 +67,7 @@ Inter is used everywhere — headings, body, buttons, captions — with extensiv
 
 ### Font Family
 - **Primary**: `Inter` — humanist sans-serif, used everywhere. Fallbacks: `Inter Fallback`, system sans-serif
-- **System**: `SF Pro Text` — Apple system font for select macOS-native UI elements. Fallbacks: `SF Pro Icons`, `Inter`, `Inter Fallback`
+- **System**: `Inter` — Apple system font for select macOS-native UI elements. Fallbacks: `SF Pro Icons`, `Inter`, `Inter Fallback`
 - **Monospace**: `GeistMono` — Vercel's monospace font for code elements. Fallbacks: `ui-monospace`, `SFMono-Regular`, `Roboto Mono`, `Menlo`, `Monaco`
 - **OpenType features**: `calt`, `kern`, `liga`, `ss03` enabled globally; `ss02`, `ss08` on display text; `liga` disabled (`"liga" 0`) on hero headings
 

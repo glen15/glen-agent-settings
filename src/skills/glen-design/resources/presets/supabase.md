@@ -1,5 +1,6 @@
 <!-- Source: VoltAgent/awesome-design-md (MIT License) -->
-<!-- Font substitutions: None -->
+<!-- Synced by: src/skills/glen-design/scripts/sync-presets.sh -->
+<!-- Font substitutions: see scripts/font-substitutions.tsv -->
 
 # Design System: Supabase
 
@@ -7,7 +8,7 @@
 
 Supabase's website is a dark-mode-native developer platform that channels the aesthetic of a premium code editor — deep black backgrounds (`#0f0f0f`, `#171717`) with emerald green accents (`#3ecf8e`, `#00c573`) that reference the brand's open-source, PostgreSQL-green identity. The design system feels like it was born in a terminal window and evolved into a sophisticated marketing surface without losing its developer soul.
 
-The typography is built on "Circular" — a geometric sans-serif with rounded terminals that softens the technical edge. At 72px with a 1.00 line-height, the hero text is compressed to its absolute minimum vertical space, creating dense, impactful statements that waste nothing. The monospace companion (Source Code Pro) appears sparingly for uppercase technical labels with 1.2px letter-spacing, creating the "developer console" markers that connect the marketing site to the product experience.
+The typography is built on "Outfit" — a geometric sans-serif with rounded terminals that softens the technical edge. At 72px with a 1.00 line-height, the hero text is compressed to its absolute minimum vertical space, creating dense, impactful statements that waste nothing. The monospace companion (Source Code Pro) appears sparingly for uppercase technical labels with 1.2px letter-spacing, creating the "developer console" markers that connect the marketing site to the product experience.
 
 What makes Supabase distinctive is its sophisticated HSL-based color token system. Rather than flat hex values, Supabase uses HSL with alpha channels for nearly every color (`--colors-crimson4`, `--colors-purple5`, `--colors-slateA12`), enabling a nuanced layering system where colors interact through transparency. This creates depth through translucency — borders at `rgba(46, 46, 46)`, surfaces at `rgba(41, 41, 41, 0.84)`, and accents at partial opacity all blend with the dark background to create a rich, dimensional palette from minimal color ingredients.
 
@@ -16,7 +17,7 @@ The green accent (`#3ecf8e`) appears selectively — in the Supabase logo, in li
 **Key Characteristics:**
 - Dark-mode-native: near-black backgrounds (`#0f0f0f`, `#171717`) — never pure black
 - Emerald green brand accent (`#3ecf8e`, `#00c573`) used sparingly as identity marker
-- Circular font — geometric sans-serif with rounded terminals
+- Outfit font — geometric sans-serif with rounded terminals
 - Source Code Pro for uppercase technical labels (1.2px letter-spacing)
 - HSL-based color token system with alpha channels for translucent layering
 - Pill buttons (9999px) for primary CTAs, 6px radius for secondary
@@ -67,22 +68,22 @@ The green accent (`#3ecf8e`) appears selectively — in the Supabase logo, in li
 ## 3. Typography Rules
 
 ### Font Families
-- **Primary**: `Circular`, with fallbacks: `custom-font, Helvetica Neue, Helvetica, Arial`
+- **Primary**: `Outfit`, with fallbacks: `custom-font, Helvetica Neue, Helvetica, Arial`
 - **Monospace**: `Source Code Pro`, with fallbacks: `Office Code Pro, Menlo`
 
 ### Hierarchy
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
 |------|------|------|--------|-------------|----------------|-------|
-| Display Hero | Circular | 72px (4.50rem) | 400 | 1.00 (tight) | normal | Maximum density, zero waste |
-| Section Heading | Circular | 36px (2.25rem) | 400 | 1.25 (tight) | normal | Feature section titles |
-| Card Title | Circular | 24px (1.50rem) | 400 | 1.33 | -0.16px | Slight negative tracking |
-| Sub-heading | Circular | 18px (1.13rem) | 400 | 1.56 | normal | Secondary headings |
-| Body | Circular | 16px (1.00rem) | 400 | 1.50 | normal | Standard body text |
-| Nav Link | Circular | 14px (0.88rem) | 500 | 1.00–1.43 | normal | Navigation items |
-| Button | Circular | 14px (0.88rem) | 500 | 1.14 (tight) | normal | Button labels |
-| Caption | Circular | 14px (0.88rem) | 400–500 | 1.43 | normal | Metadata, tags |
-| Small | Circular | 12px (0.75rem) | 400 | 1.33 | normal | Fine print, footer links |
+| Display Hero | Outfit | 72px (4.50rem) | 400 | 1.00 (tight) | normal | Maximum density, zero waste |
+| Section Heading | Outfit | 36px (2.25rem) | 400 | 1.25 (tight) | normal | Feature section titles |
+| Card Title | Outfit | 24px (1.50rem) | 400 | 1.33 | -0.16px | Slight negative tracking |
+| Sub-heading | Outfit | 18px (1.13rem) | 400 | 1.56 | normal | Secondary headings |
+| Body | Outfit | 16px (1.00rem) | 400 | 1.50 | normal | Standard body text |
+| Nav Link | Outfit | 14px (0.88rem) | 500 | 1.00–1.43 | normal | Navigation items |
+| Button | Outfit | 14px (0.88rem) | 500 | 1.14 (tight) | normal | Button labels |
+| Caption | Outfit | 14px (0.88rem) | 400–500 | 1.43 | normal | Metadata, tags |
+| Small | Outfit | 12px (0.75rem) | 400 | 1.33 | normal | Fine print, footer links |
 | Code Label | Source Code Pro | 12px (0.75rem) | 400 | 1.33 | 1.2px | `text-transform: uppercase` |
 
 ### Principles
@@ -90,7 +91,7 @@ The green accent (`#3ecf8e`) appears selectively — in the Supabase logo, in li
 - **1.00 hero line-height**: The hero text is compressed to absolute zero leading. This is the defining typographic gesture — text that feels like a terminal command: dense, efficient, no wasted vertical space.
 - **Negative tracking on cards**: Card titles use -0.16px letter-spacing, a subtle tightening that differentiates them from body text without being obvious.
 - **Monospace as ritual**: Source Code Pro in uppercase with 1.2px letter-spacing is the "developer console" voice — used sparingly for technical labels that connect to the product experience.
-- **Geometric personality**: Circular's rounded terminals create warmth in what could otherwise be a cold, technical interface. The font is the humanizing element.
+- **Geometric personality**: Outfit's rounded terminals create warmth in what could otherwise be a cold, technical interface. The font is the humanizing element.
 
 ## 4. Component Stylings
 
@@ -144,7 +145,7 @@ The green accent (`#3ecf8e`) appears selectively — in the Supabase logo, in li
 ### Navigation
 - Dark background matching page (`#171717`)
 - Supabase logo with green icon
-- Circular 14px weight 500 for nav links
+- Outfit 14px weight 500 for nav links
 - Clean horizontal layout with product dropdown
 - Green "Start your project" CTA pill button
 - Sticky header behavior
@@ -199,7 +200,7 @@ The green accent (`#3ecf8e`) appears selectively — in the Supabase logo, in li
 ### Do
 - Use near-black backgrounds (`#0f0f0f`, `#171717`) — depth comes from the gray border hierarchy
 - Apply Supabase green (`#3ecf8e`, `#00c573`) sparingly — it's an identity marker, not a decoration
-- Use Circular at weight 400 for nearly everything — 500 only for buttons and nav
+- Use Outfit at weight 400 for nearly everything — 500 only for buttons and nav
 - Set hero text to 1.00 line-height — the zero-leading is the typographic signature
 - Create depth through border color differences (`#242424` → `#2e2e2e` → `#363636`)
 - Use pill shape (9999px) exclusively for primary CTAs and tabs
@@ -242,9 +243,9 @@ The green accent (`#3ecf8e`) appears selectively — in the Supabase logo, in li
 - Green border: `rgba(62, 207, 142, 0.3)` (accent)
 
 ### Example Component Prompts
-- "Create a hero section on #171717 background. Headline at 72px Circular weight 400, line-height 1.00, #fafafa text. Sub-text at 16px Circular weight 400, line-height 1.50, #b4b4b4. Pill CTA button (#0f0f0f bg, #fafafa text, 9999px radius, 8px 32px padding, 1px solid #fafafa border)."
-- "Design a feature card: #171717 background, 1px solid #2e2e2e border, 16px radius. Title at 24px Circular weight 400, letter-spacing -0.16px. Body at 14px weight 400, #898989 text."
-- "Build navigation bar: #171717 background. Circular 14px weight 500 for links, #fafafa text. Supabase logo with green icon left-aligned. Green pill CTA 'Start your project' right-aligned."
+- "Create a hero section on #171717 background. Headline at 72px Outfit weight 400, line-height 1.00, #fafafa text. Sub-text at 16px Outfit weight 400, line-height 1.50, #b4b4b4. Pill CTA button (#0f0f0f bg, #fafafa text, 9999px radius, 8px 32px padding, 1px solid #fafafa border)."
+- "Design a feature card: #171717 background, 1px solid #2e2e2e border, 16px radius. Title at 24px Outfit weight 400, letter-spacing -0.16px. Body at 14px weight 400, #898989 text."
+- "Build navigation bar: #171717 background. Outfit 14px weight 500 for links, #fafafa text. Supabase logo with green icon left-aligned. Green pill CTA 'Start your project' right-aligned."
 - "Create a technical label: Source Code Pro 12px, uppercase, letter-spacing 1.2px, #898989 text."
 - "Design a framework logo grid: 6-column layout on dark, grayscale logos at 60% opacity, 1px solid #2e2e2e border between sections."
 

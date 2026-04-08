@@ -1,5 +1,6 @@
 <!-- Source: VoltAgent/awesome-design-md (MIT License) -->
-<!-- Font substitutions: Berkeley Mono → JetBrains Mono -->
+<!-- Synced by: src/skills/glen-design/scripts/sync-presets.sh -->
+<!-- Font substitutions: see scripts/font-substitutions.tsv -->
 
 # Design System: Linear
 
@@ -69,7 +70,7 @@ The color system is almost entirely achromatic — dark backgrounds with white/g
 ## 3. Typography Rules
 
 ### Font Family
-- **Primary**: `Inter Variable`, with fallbacks: `SF Pro Display, -apple-system, system-ui, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue`
+- **Primary**: `Inter Variable`, with fallbacks: `Inter, -apple-system, system-ui, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue`
 - **Monospace**: `JetBrains Mono`, with fallbacks: `ui-monospace, SF Mono, Menlo`
 - **OpenType Features**: `"cv01", "ss03"` enabled globally — cv01 provides an alternate lowercase 'a' (single-story), ss03 adjusts specific letterforms for a cleaner geometric appearance.
 

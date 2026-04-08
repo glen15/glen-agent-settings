@@ -1,5 +1,7 @@
 <!-- Source: VoltAgent/awesome-design-md (MIT License) -->
-<!-- Font substitutions: sohne-var → Geist, SourceCodePro → Fira Code -->
+<!-- Synced by: src/skills/glen-design/scripts/sync-presets.sh -->
+<!-- Font substitutions: see scripts/font-substitutions.tsv -->
+
 # Design System: Stripe
 
 ## 1. Visual Theme & Atmosphere
@@ -18,7 +20,7 @@ What truly distinguishes Stripe is its shadow system. Rather than the flat or si
 - Deep navy (`#061b31`) headings instead of black -- warm, premium, financial-grade
 - Conservative border-radius (4px-8px) -- nothing pill-shaped, nothing harsh
 - Ruby (`#ea2261`) and magenta (`#f96bee`) accents for gradient and decorative elements
-- `Fira Code` as the monospace companion for code and technical labels
+- `SourceCodePro` as the monospace companion for code and technical labels
 
 ## 2. Color Palette & Roles
 
@@ -68,8 +70,8 @@ What truly distinguishes Stripe is its shadow system. Rather than the flat or si
 ## 3. Typography Rules
 
 ### Font Family
-- **Primary**: `Geist`, with fallback: `SF Pro Display`
-- **Monospace**: `Fira Code`, with fallback: `SFMono-Regular`
+- **Primary**: `Geist`, with fallback: `Inter`
+- **Monospace**: `SourceCodePro`, with fallback: `SFMono-Regular`
 - **OpenType Features**: `"ss01"` enabled globally on all Geist text; `"tnum"` for tabular numbers on financial data and captions.
 
 ### Hierarchy
@@ -92,17 +94,17 @@ What truly distinguishes Stripe is its shadow system. Rather than the flat or si
 | Micro | Geist | 10px (0.63rem) | 300 | 1.15 (tight) | 0.1px | ss01 | Tiny labels, axis markers |
 | Micro Tabular | Geist | 10px (0.63rem) | 300 | 1.15 (tight) | -0.3px | tnum | Chart data, small numbers |
 | Nano | Geist | 8px (0.50rem) | 300 | 1.07 (tight) | normal | ss01 | Smallest labels |
-| Code Body | Fira Code | 12px (0.75rem) | 500 | 2.00 (relaxed) | normal | -- | Code blocks, syntax |
-| Code Bold | Fira Code | 12px (0.75rem) | 700 | 2.00 (relaxed) | normal | -- | Bold code, keywords |
-| Code Label | Fira Code | 12px (0.75rem) | 500 | 2.00 (relaxed) | normal | uppercase | Technical labels |
-| Code Micro | Fira Code | 9px (0.56rem) | 500 | 1.00 (tight) | normal | ss01 | Tiny code annotations |
+| Code Body | SourceCodePro | 12px (0.75rem) | 500 | 2.00 (relaxed) | normal | -- | Code blocks, syntax |
+| Code Bold | SourceCodePro | 12px (0.75rem) | 700 | 2.00 (relaxed) | normal | -- | Bold code, keywords |
+| Code Label | SourceCodePro | 12px (0.75rem) | 500 | 2.00 (relaxed) | normal | uppercase | Technical labels |
+| Code Micro | SourceCodePro | 9px (0.56rem) | 500 | 1.00 (tight) | normal | ss01 | Tiny code annotations |
 
 ### Principles
 - **Light weight as signature**: Weight 300 at display sizes is Stripe's most distinctive typographic choice. Where others use 600-700 to command attention, Stripe uses lightness as luxury -- the text is so confident it doesn't need weight to be authoritative.
 - **ss01 everywhere**: The `"ss01"` stylistic set is non-negotiable. It modifies specific glyphs (likely alternate `a`, `g`, `l` forms) to create a more geometric, contemporary feel across all Geist text.
 - **Two OpenType modes**: `"ss01"` for display/body text, `"tnum"` for tabular numerals in financial data. These never overlap -- a number in a paragraph uses ss01, a number in a data table uses tnum.
 - **Progressive tracking**: Letter-spacing tightens proportionally with size: -1.4px at 56px, -0.96px at 48px, -0.64px at 32px, -0.26px at 26px, normal at 16px and below.
-- **Two-weight simplicity**: Primarily 300 (body and headings) and 400 (UI/buttons). No bold (700) in the primary font -- Fira Code uses 500/700 for code contrast.
+- **Two-weight simplicity**: Primarily 300 (body and headings) and 400 (UI/buttons). No bold (700) in the primary font -- SourceCodePro uses 500/700 for code contrast.
 
 ## 4. Component Stylings
 
@@ -288,7 +290,7 @@ What truly distinguishes Stripe is its shadow system. Rather than the flat or si
 ### Image Behavior
 - Dashboard/product screenshots maintain blue-tinted shadow at all sizes
 - Hero gradient decorations simplify on mobile
-- Code blocks maintain `Fira Code` treatment, may horizontally scroll
+- Code blocks maintain `SourceCodePro` treatment, may horizontally scroll
 - Card images maintain consistent 4px-6px border-radius
 
 ## 9. Agent Prompt Guide
@@ -321,4 +323,4 @@ What truly distinguishes Stripe is its shadow system. Rather than the flat or si
 5. Border-radius stays in the 4px-8px range -- never use pill shapes or large rounding
 6. Use `"tnum"` for any numbers in tables, charts, or financial displays
 7. Dark sections use `#1c1e54` -- not black, not gray, but a deep branded indigo
-8. Fira Code for code at 12px/500 with 2.00 line-height (very generous for readability)
+8. SourceCodePro for code at 12px/500 with 2.00 line-height (very generous for readability)

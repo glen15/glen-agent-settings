@@ -1,5 +1,6 @@
 <!-- Source: VoltAgent/awesome-design-md (MIT License) -->
-<!-- Font substitutions: Airbnb Cereal (Cereal VF) → Manrope -->
+<!-- Synced by: src/skills/glen-design/scripts/sync-presets.sh -->
+<!-- Font substitutions: see scripts/font-substitutions.tsv -->
 
 # Design System: Airbnb
 
@@ -7,17 +8,17 @@
 
 Airbnb's website is a warm, photography-forward marketplace that feels like flipping through a travel magazine where every page invites you to book. The design operates on a foundation of pure white (`#ffffff`) with the iconic Rausch Red (`#ff385c`) — named after Airbnb's first street address — serving as the singular brand accent. The result is a clean, airy canvas where listing photography, category icons, and the red CTA button are the only sources of color.
 
-The typography uses Manrope — a warm and approachable geometric sans-serif with rounded terminals that echo the brand's "belong anywhere" philosophy. The font operates in a tight weight range: 500 (medium) for most UI, 600 (semibold) for emphasis, and 700 (bold) for primary headings. Slight negative letter-spacing (-0.18px to -0.44px) on headings creates a cozy, intimate reading experience rather than the compressed efficiency of tech companies.
+The typography uses Manrope — a custom variable font that's warm and approachable, with rounded terminals that echo the brand's "belong anywhere" philosophy. The font operates in a tight weight range: 500 (medium) for most UI, 600 (semibold) for emphasis, and 700 (bold) for primary headings. Slight negative letter-spacing (-0.18px to -0.44px) on headings creates a cozy, intimate reading experience rather than the compressed efficiency of tech companies.
 
 What distinguishes Airbnb is its palette-based token system (`--palette-*`) and multi-layered shadow approach. The primary card shadow uses a three-layer stack (`rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px`) that creates a subtle, warm lift. Combined with generous border-radius (8px–32px), circular navigation controls (50%), and a category pill bar with horizontal scrolling, the interface feels tactile and inviting — designed for browsing, not commanding.
 
 **Key Characteristics:**
 - Pure white canvas with Rausch Red (`#ff385c`) as singular brand accent
-- Manrope — geometric sans-serif with warm, rounded terminals
+- Manrope — custom variable font with warm, rounded terminals
 - Palette-based token system (`--palette-*`) for systematic color management
 - Three-layer card shadows: border ring + soft blur + stronger blur
 - Generous border-radius: 8px buttons, 14px badges, 20px cards, 32px large elements
-- Circular navigation controls (50% radius)
+- Outfit navigation controls (50% radius)
 - Photography-first listing cards — images are the hero content
 - Near-black text (`#222222`) — warm, not cold
 - Luxe Purple (`#460479`) and Plus Magenta (`#92174d`) for premium tiers
@@ -44,7 +45,7 @@ What distinguishes Airbnb is its palette-based token system (`--palette-*`) and 
 ### Interactive
 - **Legal Blue** (`#428bff`): `--palette-text-legal`, legal links, informational
 - **Border Gray** (`#c1c1c1`): Border color for cards and dividers
-- **Light Surface** (`#f2f2f2`): Circular navigation buttons, secondary surfaces
+- **Light Surface** (`#f2f2f2`): Outfit navigation buttons, secondary surfaces
 
 ### Surface & Shadows
 - **Pure White** (`#ffffff`): Page background, card surfaces
@@ -54,7 +55,7 @@ What distinguishes Airbnb is its palette-based token system (`--palette-*`) and 
 ## 3. Typography Rules
 
 ### Font Family
-- **Primary**: `Manrope`, fallbacks: `-apple-system, system-ui, Roboto, Helvetica Neue`
+- **Primary**: `Manrope`, fallbacks: `Outfit, -apple-system, system-ui, Roboto, Helvetica Neue`
 - **OpenType Features**: `"salt"` (stylistic alternates) on specific caption elements
 
 ### Hierarchy
@@ -81,7 +82,7 @@ What distinguishes Airbnb is its palette-based token system (`--palette-*`) and 
 - **Warm weight range**: 500–700 dominate. No weight 300 or 400 for headings — Airbnb's type is always at least medium weight, creating a warm, confident voice.
 - **Negative tracking on headings**: -0.18px to -0.44px letter-spacing on display creates intimate, cozy headings rather than cold, compressed ones.
 - **"salt" OpenType feature**: Stylistic alternates on specific UI elements (badges, captions) create subtle glyph variations that add visual interest.
-- **Variable font precision**: Manrope supports variable weight, enabling continuous weight interpolation, though the design system uses discrete stops at 500, 600, and 700.
+- **Variable font precision**: Cereal VF enables continuous weight interpolation, though the design system uses discrete stops at 500, 600, and 700.
 
 ## 4. Component Stylings
 
@@ -95,7 +96,7 @@ What distinguishes Airbnb is its palette-based token system (`--palette-*`) and 
 - Hover: transitions to error/brand accent via `var(--accent-bg-error)`
 - Focus: `0 0 0 2px var(--palette-grey1000)` ring + scale(0.92)
 
-**Circular Nav**
+**Outfit Nav**
 - Background: `#f2f2f2`
 - Text: `#222222`
 - Radius: 50% (circle)
@@ -119,7 +120,7 @@ What distinguishes Airbnb is its palette-based token system (`--palette-*`) and 
 - White sticky header with search bar centered
 - Airbnb logo (Rausch Red) left-aligned
 - Category filter pills: horizontal scroll below search
-- Circular nav controls for carousel navigation
+- Outfit nav controls for carousel navigation
 - "Become a Host" text link, avatar/menu right-aligned
 
 ### Image Treatment
@@ -202,7 +203,7 @@ What distinguishes Airbnb is its palette-based token system (`--palette-*`) and 
 *Note: Airbnb has 61 detected breakpoints — one of the most granular responsive systems observed, reflecting their obsession with layout at every possible screen size.*
 
 ### Touch Targets
-- Circular nav buttons: adequate 50% radius sizing
+- Outfit nav buttons: adequate 50% radius sizing
 - Listing cards: full-card tap target on mobile
 - Search bar: prominently sized for thumb interaction
 - Category pills: horizontally scrollable with generous padding
@@ -234,9 +235,9 @@ What distinguishes Airbnb is its palette-based token system (`--palette-*`) and 
 
 ### Example Component Prompts
 - "Create a listing card: white background, 20px radius. Three-layer shadow: rgba(0,0,0,0.02) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 6px, rgba(0,0,0,0.1) 0px 4px 8px. Photo area on top (16:10 ratio), details below: 16px Manrope weight 600 title, 14px weight 400 description in #6a6a6a."
-- "Design search bar: white background, full card shadow, 32px radius on container. Search text at 14px Manrope weight 400. Red search button (#ff385c, 50% radius, white icon)."
-- "Build category pill bar: horizontal scrollable row. Each pill: 14px Manrope weight 600, #222222 text, bottom border on active. Circular prev/next arrows (#f2f2f2 bg, 50% radius)."
-- "Create a CTA button: #222222 background, white text, 8px radius, 16px Manrope weight 500, 0px 24px padding. Hover: brand red accent."
+- "Design search bar: white background, full card shadow, 32px radius on container. Search text at 14px Cereal VF weight 400. Red search button (#ff385c, 50% radius, white icon)."
+- "Build category pill bar: horizontal scrollable row. Each pill: 14px Cereal VF weight 600, #222222 text, bottom border on active. Outfit prev/next arrows (#f2f2f2 bg, 50% radius)."
+- "Create a CTA button: #222222 background, white text, 8px radius, 16px Cereal VF weight 500, 0px 24px padding. Hover: brand red accent."
 - "Design a heart/wishlist button: transparent background, 50% radius, white heart icon with dark shadow outline."
 
 ### Iteration Guide
@@ -245,5 +246,5 @@ What distinguishes Airbnb is its palette-based token system (`--palette-*`) and 
 3. Near-black (#222222) for text — the warmth matters
 4. Three-layer shadows create natural, warm lift — always use all three layers
 5. Generous radius: 8px buttons, 20px cards, 50% controls
-6. Manrope at 500–700 weight — no thin weights for any heading
+6. Cereal VF at 500–700 weight — no thin weights for any heading
 7. Photography is hero — every listing card is image-first

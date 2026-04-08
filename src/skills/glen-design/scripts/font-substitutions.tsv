@@ -1,0 +1,126 @@
+# Font substitutions for VoltAgent/awesome-design-md presets
+# Policy: proprietary → Google Fonts / system equivalents (free)
+# Format: <source>\t<replacement>
+# Order: LONGEST patterns FIRST — sed replaces greedily, so specific variants
+# must precede their base names (e.g. "GT Walsheim Medium" before "GT Walsheim").
+
+# === Multi-word variants (longest first) ===
+Airbnb Cereal VF	Manrope
+Airbnb Cereal	Manrope
+SF Pro Display	Inter
+SF Pro Rounded	Manrope
+SF Pro Text	Inter
+GT Walsheim Framer Medium Placeholder	Inter Fallback
+GT Walsheim Framer Medium	Outfit
+GT Walsheim Medium	Outfit
+GT Walsheim	Outfit
+GT Alpina	Fraunces
+Matter SQ Regular Placeholder	Inter Fallback
+Matter SQ Regular	Inter
+Matter Mono Regular Placeholder	JetBrains Mono Fallback
+Matter Mono Regular	JetBrains Mono
+Matter Regular Placeholder	Inter Fallback
+Matter Regular	Inter
+Matter Medium Placeholder	Inter Fallback
+Matter Medium	Inter
+Matter SemiBold	Inter
+Roobert PRO SemiBold Italic	Inter Italic
+Roobert PRO SemiBold	Inter
+Roobert PRO Medium	Inter
+Roobert PRO	Inter
+Roobert	Inter
+Anthropic Serif	Fraunces
+Anthropic Sans	Inter
+Anthropic Mono	Geist Mono
+abcDiatype Fallback	Inter Fallback
+abcDiatype	Inter
+abcNormal Fallback	Inter Fallback
+abcNormal	Inter
+CursorGothic Fallback	Inter Fallback
+CursorGothic	Inter
+berkeleyMono	JetBrains Mono
+Berkeley Mono	JetBrains Mono
+WaldenburgFH Fallback	Geist Fallback
+WaldenburgFH	Geist
+Waldenburg Fallback	Geist Fallback
+Waldenburg	Geist
+waldenburgNormal Fallback	Geist Fallback
+waldenburgNormal	Geist
+FerrariSans	Space Grotesk
+figmaSans Fallback	Inter Fallback
+figmaSans	Inter
+figmaMono Fallback	Geist Mono Fallback
+figmaMono	Geist Mono
+BMWTypeNextLatin Light	Space Grotesk
+BMWTypeNextLatin	Space Grotesk
+LamboType	Space Grotesk
+Kraken-Brand	Space Grotesk
+Kraken-Product	Inter
+hashicorpSans_Fallback	Inter Fallback
+hashicorpSans	Inter
+HashiCorp Sans	Inter
+Saans Fallback	Manrope Fallback
+SaansMono Fallback	JetBrains Mono Fallback
+SaansMono	JetBrains Mono
+Saans	Manrope
+Serrif Fallback	Fraunces Fallback
+Serrif	Fraunces
+Camera Plain Variable	Cabinet Grotesk
+Camera Plain	Cabinet Grotesk
+NotionInter	Inter
+NVIDIA-EMEA	Space Grotesk
+MongoDB Value Serif	Fraunces
+Euclid Circular A	Manrope
+Akzidenz-Grotesk Std	Inter
+Pin Sans	Manrope
+rb-freigeist-neue	Space Grotesk
+basier-square	Inter
+Basier	Inter
+Domaine Display	Fraunces
+aBCFavorit Fallback	Inter Fallback
+aBCFavorit	Inter
+ABC Favorit	Inter
+commitMono	JetBrains Mono
+Aeonik Pro	Outfit
+NouvelR	Space Grotesk
+Dammit Sans	Space Grotesk
+D-DIN-Bold	Oswald
+D-DIN	Oswald
+SpotifyMixUITitle	Outfit
+SpotifyMixUI	Outfit
+Super Sans VF	Inter
+Super Sans	Inter
+Messina Sans	Inter
+Messina Serif	Fraunces
+Messina Mono	JetBrains Mono
+Universal Sans Display	Geist
+Universal Sans Text	Geist
+Universal Sans	Geist
+universalSans Fallback	Geist Fallback
+universalSans	Geist
+PP Neue Montreal Mono	JetBrains Mono
+PP Neue Montreal	Space Grotesk
+The Future	Space Grotesk
+UberMoveText	Inter
+UberMove	Inter
+Wise Sans	Inter
+WF Visual Sans Variable	Inter
+WF Visual Sans	Inter
+Degular Display	Outfit
+CohereText	Space Grotesk
+CohereMono	Geist Mono
+CoinbaseDisplay	Geist
+CoinbaseSans	Inter
+CoinbaseText	Inter
+Unica77 Cohere Web	Inter
+Unica77	Inter
+jjannon	Fraunces
+sohne-var	Geist
+Haas Groot Disp	Space Grotesk
+Haas	Space Grotesk
+CircularSp-Arab	Outfit
+CircularSp-Hebr	Outfit
+CircularSp-Cyrl	Outfit
+CircularSp-Grek	Outfit
+CircularSp-Deva	Outfit
+Circular	Outfit

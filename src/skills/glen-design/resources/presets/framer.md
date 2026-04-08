@@ -1,5 +1,6 @@
 <!-- Source: VoltAgent/awesome-design-md (MIT License) -->
-<!-- Font substitutions: GT Walsheim → Plus Jakarta Sans (free, Google Fonts) -->
+<!-- Synced by: src/skills/glen-design/scripts/sync-presets.sh -->
+<!-- Font substitutions: see scripts/font-substitutions.tsv -->
 
 # Design System: Framer
 
@@ -7,13 +8,13 @@
 
 Framer's website is a cinematic, tool-obsessed dark canvas that radiates the confidence of a design tool built by designers who worship craft. The entire experience is drenched in pure black — not a warm charcoal or a cozy dark gray, but an absolute void (`#000000`) that makes every element, every screenshot, every typographic flourish feel like it's floating in deep space. This is a website that treats its own product UI as the hero art, embedding full-fidelity screenshots and interactive demos directly into the narrative flow.
 
-The typography is the signature move: Plus Jakarta Sans with aggressively tight letter-spacing (as extreme as -5.5px on 110px display text) creates headlines that feel compressed, kinetic, almost spring-loaded — like words under pressure that might expand at any moment. The transition to Inter for body text is seamless, with extensive OpenType feature usage (`cv01`, `cv05`, `cv09`, `cv11`, `ss03`, `ss07`) that gives even small text a refined, custom feel. Framer Blue (`#0099ff`) is deployed sparingly but decisively — as link color, border accents, and subtle ring shadows — creating a cold, electric throughline against the warm-less black.
+The typography is the signature move: Outfit with aggressively tight letter-spacing (as extreme as -5.5px on 110px display text) creates headlines that feel compressed, kinetic, almost spring-loaded — like words under pressure that might expand at any moment. The transition to Inter for body text is seamless, with extensive OpenType feature usage (`cv01`, `cv05`, `cv09`, `cv11`, `ss03`, `ss07`) that gives even small text a refined, custom feel. Framer Blue (`#0099ff`) is deployed sparingly but decisively — as link color, border accents, and subtle ring shadows — creating a cold, electric throughline against the warm-less black.
 
 The overall effect is a nightclub for web designers: dark, precise, seductive, and unapologetically product-forward. Every section exists to showcase what the tool can do, with the website itself serving as proof of concept.
 
 **Key Characteristics:**
 - Pure black (`#000000`) void canvas — absolute dark, not warm or gray-tinted
-- Plus Jakarta Sans display font with extreme negative letter-spacing (-5.5px at 110px)
+- Outfit display font with extreme negative letter-spacing (-5.5px at 110px)
 - Framer Blue (`#0099ff`) as the sole accent color — cold, electric, precise
 - Pill-shaped buttons (40px–100px radius) — no sharp corners on interactive elements
 - Product screenshots as hero art — the tool IS the marketing
@@ -53,7 +54,7 @@ The overall effect is a nightclub for web designers: dark, precise, seductive, a
 ## 3. Typography Rules
 
 ### Font Family
-- **Display**: `Plus Jakarta Sans` — geometric sans-serif, weight 500. Fallbacks: system sans-serif
+- **Display**: `Outfit` / `Outfit` — custom geometric sans-serif, weight 500. Fallbacks: `Inter Fallback`, system sans-serif
 - **Body/UI**: `Inter Variable` / `Inter` — variable sans-serif with extensive OpenType features. Fallbacks: `Inter Placeholder`, `-apple-system`, `system-ui`
 - **Accent**: `Mona Sans` — GitHub's open-source font, used for select elements at ultra-light weight (100)
 - **Monospace**: `Azeret Mono` — companion mono for code and technical labels
@@ -63,10 +64,10 @@ The overall effect is a nightclub for web designers: dark, precise, seductive, a
 
 | Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
 |------|------|------|--------|-------------|----------------|-------|
-| Display Hero | Plus Jakarta Sans | 110px | 500 | 0.85 | -5.5px | Extreme negative tracking, compressed impact |
-| Section Display | Plus Jakarta Sans | 85px | 500 | 0.95 | -4.25px | OpenType: ss02, tnum |
-| Section Heading | Plus Jakarta Sans | 62px | 500 | 1.00 | -3.1px | OpenType: ss02 |
-| Feature Heading | Plus Jakarta Sans | 32px | 500 | 1.13 | -1px | Tightest of the smaller headings |
+| Display Hero | Outfit | 110px | 500 | 0.85 | -5.5px | Extreme negative tracking, compressed impact |
+| Section Display | Outfit | 85px | 500 | 0.95 | -4.25px | OpenType: ss02, tnum |
+| Section Heading | Outfit | 62px | 500 | 1.00 | -3.1px | OpenType: ss02 |
+| Feature Heading | Outfit | 32px | 500 | 1.13 | -1px | Tightest of the smaller headings |
 | Accent Display | Mona Sans | 61.5px | 100 | 1.00 | -3.1px | Ultra-light weight, ethereal |
 | Card Title | Inter Variable | 24px | 400 | 1.30 | -0.01px | OpenType: cv01, cv05, cv09, cv11, ss03, ss07 |
 | Feature Title | Inter | 22px | 700 | 1.20 | -0.8px | OpenType: cv05 |
@@ -74,7 +75,7 @@ The overall effect is a nightclub for web designers: dark, precise, seductive, a
 | Body Large | Inter Variable | 18px | 400 | 1.30 | -0.01px | OpenType: cv01, cv05, cv09, cv11, ss03, ss07 |
 | Body | Inter Variable | 15px | 400 | 1.30 | -0.01px | OpenType: cv11 |
 | Nav/UI | Inter Variable | 15px | 400 | 1.00 | -0.15px | OpenType: cv06, cv11, dlig, ss03 |
-| Body Readable | Inter Regular | 14px | 400 | 1.60 | normal | Long-form body text |
+| Body Readable | Inter Framer Regular | 14px | 400 | 1.60 | normal | Long-form body text |
 | Caption | Inter Variable | 14px | 400 | 1.40 | normal | OpenType: cv01, cv06, cv09, cv11, ss03, ss07 |
 | Label | Inter | 13px | 500 | 1.60 | normal | OpenType: cv06, cv11, ss03 |
 | Small Caption | Inter Variable | 12px | 400 | 1.40 | normal | OpenType: cv01, cv06, cv09, cv11, ss03, ss07 |
@@ -83,9 +84,9 @@ The overall effect is a nightclub for web designers: dark, precise, seductive, a
 | Micro Uppercase | Inter Variable | 7px | 400 | 1.00 | 0.21px | uppercase transform |
 
 ### Principles
-- **Compression as personality**: Plus Jakarta Sans's extreme negative letter-spacing (-5.5px at 110px) is the defining typographic gesture — headlines feel spring-loaded, urgent, almost breathless
+- **Compression as personality**: Outfit's extreme negative letter-spacing (-5.5px at 110px) is the defining typographic gesture — headlines feel spring-loaded, urgent, almost breathless
 - **OpenType maximalism**: Inter is deployed with 6+ OpenType features simultaneously (`cv01`, `cv05`, `cv09`, `cv11`, `ss03`, `ss07`), creating a subtly custom feel even at body sizes
-- **Weight restraint on display**: All Plus Jakarta Sans usage is weight 500 (medium) — never bold, never regular. This creates a confident-but-not-aggressive display tone
+- **Weight restraint on display**: All Outfit usage is weight 500 (medium) — never bold, never regular. This creates a confident-but-not-aggressive display tone
 - **Ultra-tight line heights**: Display text at 0.85 line-height means letters nearly overlap vertically — intentional density that rewards reading at arm's length
 
 ## 4. Component Stylings
@@ -176,18 +177,18 @@ Framer's elevation system is inverted from traditional light-theme designs. Inst
 
 ### Do
 - Use pure black (`#000000`) as the primary background — not dark gray, not charcoal
-- Apply extreme negative letter-spacing on Plus Jakarta Sans display text (-3px to -5.5px)
+- Apply extreme negative letter-spacing on Outfit display text (-3px to -5.5px)
 - Keep all buttons pill-shaped (40px+ radius) — never use squared or slightly-rounded buttons
 - Use Framer Blue (`#0099ff`) exclusively for interactive accents — links, borders, focus states
 - Deploy `rgba(255, 255, 255, 0.1)` for frosted glass surfaces on dark backgrounds
-- Maintain Plus Jakarta Sans at weight 500 only — the medium weight IS the brand
+- Maintain Outfit at weight 500 only — the medium weight IS the brand
 - Use extensive OpenType features on Inter text (cv01, cv05, cv09, cv11, ss03, ss07)
 - Let product screenshots be the visual centerpiece — the tool markets itself
 - Apply blue ring shadows (`rgba(0, 153, 255, 0.15) 0px 0px 0px 1px`) for card containment
 
 ### Don't
 - Use warm dark backgrounds (no `#1a1a1a`, `#2d2d2d`, or brownish blacks)
-- Apply bold (700+) weight to Plus Jakarta Sans display text — medium 500 only
+- Apply bold (700+) weight to Outfit display text — medium 500 only
 - Introduce additional accent colors beyond Framer Blue — this is a one-accent-color system
 - Use large border-radius on non-interactive elements (cards use 10px–15px, only buttons get 40px+)
 - Add decorative imagery, illustrations, or icons — the product IS the illustration
@@ -234,7 +235,7 @@ Framer's elevation system is inverted from traditional light-theme designs. Inst
 - Elevation Ring: Blue Glow (`rgba(0, 153, 255, 0.15)`)
 
 ### Example Component Prompts
-- "Create a hero section on pure black background with 110px Plus Jakarta Sans heading in white, letter-spacing -5.5px, line-height 0.85, and a pill-shaped white CTA button (100px radius) with black text"
+- "Create a hero section on pure black background with 110px Outfit heading in white, letter-spacing -5.5px, line-height 0.85, and a pill-shaped white CTA button (100px radius) with black text"
 - "Design a feature card on black background with a 1px Framer Blue ring shadow border (rgba(0,153,255,0.15)), 12px border-radius, white heading in Inter at 22px weight 700, and muted silver (a6a6a6) body text"
 - "Build a navigation bar with black background, white Inter text links at 15px, and a frosted pill button (rgba(255,255,255,0.1) background, 40px radius) as the CTA"
 - "Create a product showcase section with a full-width screenshot embedded on black, 10px border-radius, subtle multi-layer shadow (white 0.5px top highlight + rgba(0,0,0,0.25) 30px ambient)"
@@ -243,7 +244,7 @@ Framer's elevation system is inverted from traditional light-theme designs. Inst
 ### Iteration Guide
 When refining existing screens generated with this design system:
 1. Focus on ONE component at a time — the dark canvas makes each element precious
-2. Always verify letter-spacing on Plus Jakarta Sans headings — the extreme negative tracking is non-negotiable
+2. Always verify letter-spacing on Outfit headings — the extreme negative tracking is non-negotiable
 3. Check that Framer Blue appears ONLY on interactive elements — never as decorative background or text color for non-links
 4. Ensure all buttons are pill-shaped — any squared corner immediately breaks the Framer aesthetic
 5. Test frosted glass surfaces by checking they have exactly `rgba(255, 255, 255, 0.1)` — too opaque looks like a bug, too transparent disappears

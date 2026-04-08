@@ -1,5 +1,6 @@
 <!-- Source: VoltAgent/awesome-design-md (MIT License) -->
-<!-- Font substitutions: Circular (SpotifyMixUI/SpotifyMixUITitle/CircularSp) → Outfit -->
+<!-- Synced by: src/skills/glen-design/scripts/sync-presets.sh -->
+<!-- Font substitutions: see scripts/font-substitutions.tsv -->
 
 # Design System: Spotify
 
@@ -7,14 +8,14 @@
 
 Spotify's web interface is a dark, immersive music player that wraps listeners in a near-black cocoon (`#121212`, `#181818`, `#1f1f1f`) where album art and content become the primary source of color. The design philosophy is "content-first darkness" — the UI recedes into shadow so that music, podcasts, and playlists can glow. Every surface is a shade of charcoal, creating a theater-like environment where the only true color comes from the iconic Spotify Green (`#1ed760`) and the album artwork itself.
 
-The typography uses Outfit — a geometric sans-serif with an extensive fallback stack that includes Arabic, Hebrew, Cyrillic, Greek, Devanagari, and CJK fonts, reflecting Spotify's global reach. The type system is compact and functional: 700 (bold) for emphasis and navigation, 600 (semibold) for secondary emphasis, and 400 (regular) for body. Buttons use uppercase with positive letter-spacing (1.4px–2px) for a systematic, label-like quality.
+The typography uses Outfit and Outfit — proprietary fonts from the OutfitSp family (Outfit by Lineto, customized for Spotify) with an extensive fallback stack that includes Arabic, Hebrew, Cyrillic, Greek, Devanagari, and CJK fonts, reflecting Spotify's global reach. The type system is compact and functional: 700 (bold) for emphasis and navigation, 600 (semibold) for secondary emphasis, and 400 (regular) for body. Buttons use uppercase with positive letter-spacing (1.4px–2px) for a systematic, label-like quality.
 
 What distinguishes Spotify is its pill-and-circle geometry. Primary buttons use 500px–9999px radius (full pill), circular play buttons use 50% radius, and search inputs are 500px pills. Combined with heavy shadows (`rgba(0,0,0,0.5) 0px 8px 24px`) on elevated elements and a unique inset border-shadow combo (`rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset`), the result is an interface that feels like a premium audio device — tactile, rounded, and built for touch.
 
 **Key Characteristics:**
 - Near-black immersive dark theme (`#121212`–`#1f1f1f`) — UI disappears behind content
 - Spotify Green (`#1ed760`) as singular brand accent — never decorative, always functional
-- Outfit font family with global script support
+- Outfit/OutfitSp font family with global script support
 - Pill buttons (500px–9999px) and circular controls (50%) — rounded, touch-optimized
 - Uppercase button labels with wide letter-spacing (1.4px–2px)
 - Heavy shadows on elevated elements (`rgba(0,0,0,0.5) 0px 8px 24px`)
@@ -57,7 +58,7 @@ What distinguishes Spotify is its pill-and-circle geometry. Primary buttons use 
 ## 3. Typography Rules
 
 ### Font Families
-- **Title**: `Outfit`, fallbacks: `Helvetica Neue, helvetica, arial, Hiragino Sans, Hiragino Kaku Gothic ProN, Meiryo, MS Gothic`
+- **Title**: `Outfit`, fallbacks: `Outfit, Outfit, Outfit, Outfit, Outfit, Helvetica Neue, helvetica, arial, Hiragino Sans, Hiragino Kaku Gothic ProN, Meiryo, MS Gothic`
 - **UI / Body**: `Outfit`, same fallback stack
 
 ### Hierarchy
@@ -117,7 +118,7 @@ What distinguishes Spotify is its pill-and-circle geometry. Primary buttons use 
 - Radius: 9999px
 - Use: Follow buttons, secondary actions
 
-**Circular Play**
+**Outfit Play**
 - Background: `#1f1f1f`
 - Text: `#ffffff`
 - Padding: 12px
@@ -140,7 +141,7 @@ What distinguishes Spotify is its pill-and-circle geometry. Primary buttons use 
 ### Navigation
 - Dark sidebar with Outfit 14px weight 700 for active, 400 for inactive
 - `#b3b3b3` muted color for inactive items, `#ffffff` for active
-- Circular icon buttons (50% radius)
+- Outfit icon buttons (50% radius)
 - Spotify logo top-left in green
 
 ## 5. Layout Principles
