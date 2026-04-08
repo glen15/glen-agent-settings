@@ -50,14 +50,17 @@ CLEANED=$(awk '
     while (match(line, /`[^`]*`/)) {
       line = substr(line, 1, RSTART-1) substr(line, RSTART+RLENGTH)
     }
+    # 안전 패턴 "**...**" (따옴표가 bold 밖) 을 먼저 제거하여 false positive 방지
+    gsub(/"\*\*[^"*]+\*\*"/, "", line)
     print NR ":" line
   }
 ' "$FILE")
 
 ISSUES=""
 
-# 패턴 1: bold + 직접 인접한 큰따옴표 (**"..."** 또는 양쪽이 인접)
-P1=$(echo "$CLEANED" | grep -E '\*\*"[^"]+"\*\*|\*\*[^*]+"\*\*[가-힣]|[가-힣]\*\*"[^*]+\*\*' 2>/dev/null || true)
+# 패턴 1: bold 안에 큰따옴표가 직접 인접한 경우 (**"..."**)
+# 위의 awk 전처리로 안전 패턴은 이미 제거됨 — 남은 **" 또는 "** 인접만 잡힌다
+P1=$(echo "$CLEANED" | grep -E '\*\*"[^"*]+"\*\*' 2>/dev/null || true)
 if [[ -n "$P1" ]]; then
   ISSUES+=$'\n[패턴 1: bold + 따옴표 인접 — 깨질 수 있음]\n'
   ISSUES+="$P1"$'\n'
