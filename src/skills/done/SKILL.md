@@ -83,9 +83,30 @@ mcp__nxtflow__create_task:
   priority: fix→high, feat→medium, tidy/chore→low
 ```
 
-### Step 4: 완료 보고
+### Step 4: 세션 이름 설정
 
-한 줄 요약: 커밋 해시 + nxtflow 액션 (생성/완료/업데이트)
+커밋 완료 후 현재 세션의 `customTitle`을 설정한다. `claude -r` 피커에서 의미있는 이름으로 표시된다.
+
+1. 프로젝트 폴더명 추출: `basename $(git rev-parse --show-toplevel)`
+2. 마지막 커밋 메시지에서 타입 프리픽스(`feat:` 등) 제거 후 핵심 키워드 추출 (15자 이내)
+3. `customTitle` = `폴더명-키워드요약` (예: `glen-harness-이미지스킬수정`)
+4. Bash로 세션 JSONL에 append:
+
+```bash
+# 세션 ID: 환경변수 → sessions 파일 fallback
+SESSION_ID="${CLAUDE_SESSION_ID:-$(cat "$HOME/.claude/sessions/$(ls -t "$HOME/.claude/sessions/" | head -1)" | python3 -c "import sys,json; print(json.load(sys.stdin)['sessionId'])")}"
+PROJECT_PATH=$(pwd | sed 's|/|-|g')
+JSONL="$HOME/.claude/projects/${PROJECT_PATH}/${SESSION_ID}.jsonl"
+
+# customTitle append (마지막 라인이 우선 — 덮어쓰기 효과)
+echo "{\"type\":\"custom-title\",\"customTitle\":\"<조립된 이름>\",\"sessionId\":\"${SESSION_ID}\"}" >> "$JSONL"
+```
+
+5. 이전 `/done`에서 이미 이름이 설정되었더라도 마지막 라인이 우선이므로 자연스럽게 덮어쓴다.
+
+### Step 5: 완료 보고
+
+한 줄 요약: 커밋 해시 + nxtflow 액션 (생성/완료/업데이트) + 세션 이름
 
 ## 주의사항
 
