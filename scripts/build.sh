@@ -149,15 +149,11 @@ done
 # Codex config.toml 생성
 cat > "${DIST_DIR}/codex/config.toml" << 'TOML'
 # glen-agent-settings — Codex CLI config
-model = "o4-mini"
+model = "gpt-5.4"
 approval_mode = "auto-edit"
 
 [history]
-persistence = "per_directory"
-max_entries = 500
-
-[instructions]
-auto_read_agents_md = true
+persistence = "save-all"
 TOML
 echo "  → claude: settings.json"
 echo "  → codex: config.toml"
