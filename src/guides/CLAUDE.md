@@ -74,7 +74,7 @@ bash에서 `claude -p`를 반복 호출하는 무인 자율 코딩. `ralph-loop 
 - **Context Reset**: context 과부하 시 추적 문서에 상태 기록 후 fresh context에서 재개
 - **하네스 진화**: 모델 개선 → 스캐폴딩 축소 → 새 능력으로 더 복잡한 작업 활성화
 - **UI 파이프라인**: Skill(디자인 결정 + 컴포넌트 선택) → MCP(소스코드만) → Skill(검증)
-- **에이전트 조합**: planner(architect) → tdd-guide → evaluator → code-reviewer → security-reviewer
+- **에이전트 조합**: planner(architect) → tdd-guide → evaluator → claude-reviewer → security-reviewer
 
 ## 도구 우선순위
 

@@ -16,4 +16,4 @@ description: "새 기능, 아키텍처 변경, 복잡한 리팩토링 전에 사
 ## 다음 단계
 
 - 승인 후 `/tdd`로 테스트 주도 구현
-- 완료 후 `/code-review`로 검토
+- 완료 후 `/claude-review`로 검토

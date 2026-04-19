@@ -27,5 +27,5 @@ RED → GREEN → REFACTOR → REPEAT
 ## 다음 단계
 
 - `/build-fix` — 빌드 에러 발생 시
-- `/code-review` — 구현 완료 후
+- `/claude-review` — 구현 완료 후
 - `/test-coverage` — 커버리지 부족 시

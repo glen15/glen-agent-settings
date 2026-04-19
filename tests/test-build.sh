@@ -60,14 +60,14 @@ assert "failures/logger.sh 존재" "[ -f '${DIST_DIR}/claude/ralph-loop/failures
 # Agents
 echo ""
 echo "[Claude agents 검증]"
-for agent in architect build-error-resolver code-reviewer doc-updater e2e-runner refactor-cleaner security-reviewer tdd-guide; do
+for agent in architect build-error-resolver claude-reviewer doc-updater e2e-runner refactor-cleaner security-reviewer tdd-guide; do
   assert "에이전트: $agent" "[ -f '${DIST_DIR}/claude/agents/${agent}.md' ]"
 done
 
 # Commands
 echo ""
 echo "[Claude commands 검증]"
-for cmd in build-fix code-review e2e plan refactor-clean tdd test-coverage update-codemaps update-docs; do
+for cmd in build-fix claude-review e2e plan refactor-clean tdd test-coverage update-codemaps update-docs; do
   assert "커맨드: $cmd" "[ -f '${DIST_DIR}/claude/commands/${cmd}.md' ]"
 done
 

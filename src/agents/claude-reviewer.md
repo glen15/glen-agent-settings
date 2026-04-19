@@ -1,5 +1,5 @@
 ---
-name: code-reviewer
+name: claude-reviewer
 description: 코드 변경 후 즉시 실행. git diff를 분석하여 보안 취약점, 누락된 테스트, 동작 리그레션을 검토. '리뷰해줘', 'PR 체크', 코드 작성 완료 시 자동 호출.
 tools: Read, Grep, Glob, Bash
 model: opus

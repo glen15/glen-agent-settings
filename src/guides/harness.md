@@ -28,7 +28,7 @@ Glen의 Claude Code 하네스 운영 가이드. 에이전트가 **올바른 도�
 | 새 기능 구현 | `tdd-guide` | 수동 |
 | 라이브 앱 품질 평가 | `evaluator` | 수동 (/evaluate) |
 | 빌드/타입 에러 | `build-error-resolver` | **자동** (빌드 실패 시) |
-| 코드 변경 후 리뷰 | `code-reviewer` | **자동** (코드 변경 후) |
+| 코드 변경 후 리뷰 | `claude-reviewer` | **자동** (코드 변경 후) |
 | 보안 민감 코드 | `security-reviewer` | **자동** (인증/API/결제 코드) |
 | E2E 테스트 | `e2e-runner` | 수동 |
 | 코드 정리/죽은 코드 | `refactor-cleaner` | 수동 |
@@ -38,11 +38,11 @@ Glen의 Claude Code 하네스 운영 가이드. 에이전트가 **올바른 도�
 ### 에이전트 조합 패턴
 
 ```
-[새 기능]      /plan (architect) → tdd-guide → evaluator → code-reviewer → security-reviewer
+[새 기능]      /plan (architect) → tdd-guide → evaluator → claude-reviewer → security-reviewer
 [풀스택 앱]    /plan (architect: 사양 확장) → /begin → Generator(tdd-guide) ↔ Evaluator(contract 기반) 반복
 [버그 수정]    Explore → tdd-guide (재현 테스트 먼저) → build-error-resolver
-[리팩토링]     refactor-cleaner → code-reviewer → doc-updater
-[UI 구현]      /plan (architect) → UI 파이프라인 (아래 참조) → evaluator (스크린샷 기반) → code-reviewer
+[리팩토링]     refactor-cleaner → claude-reviewer → doc-updater
+[UI 구현]      /plan (architect) → UI 파이프라인 (아래 참조) → evaluator (스크린샷 기반) → claude-reviewer
 [장시간 개발]  /plan → /begin → /refine (Generator-Evaluator 모드) → context reset → 반복
 ```
 
@@ -81,7 +81,7 @@ Glen의 Claude Code 하네스 운영 가이드. 에이전트가 **올바른 도�
 | TDD 테스트 작성 | `/tdd` | tdd-guide |
 | 테스트 커버리지 확보 | `/test-coverage` | tdd-guide |
 | 빌드 오류 수정 | `/build-fix` | build-error-resolver |
-| 코드 리뷰 | `/code-review` | code-reviewer |
+| 코드 리뷰 | `/claude-review` | claude-reviewer |
 | E2E 테스트 | `/e2e` | e2e-runner |
 | 리팩토링/정리 | `/refactor-clean` | refactor-cleaner |
 | 코드맵 업데이트 | `/update-codemaps` | doc-updater |
@@ -134,7 +134,7 @@ Skill은 단일 계층이 아니라 **여러 신뢰도의 단계를 포함하는
 |------|------------|-----------|-----------------|
 | **UI 디자인** | `/ui-ux-pro-max` — 스타일/컬러/폰트/레이아웃 결정 | `magic` | 컴포넌트 최신 소스코드 가져올 때만 |
 | **UI 구현** | `/frontend-design`, `frontend-patterns.md` — 패턴/구조 | `magic` | 특정 컴포넌트 예제 코드 필요 시 |
-| **코드 품질** | `/code-review`, `coding-standards.md` — 규칙/체크리스트 | - | 불필요 |
+| **코드 품질** | `/claude-review`, `coding-standards.md` — 규칙/체크리스트 | - | 불필요 |
 | **보안** | `/security-review` — OWASP 체크리스트 | - | 불필요 |
 | **테스트** | `/tdd`, `/e2e` — 워크플로우/패턴 | - | 불필요 |
 | **백엔드** | `backend-patterns.md` — API/DB 패턴 | - | 불필요 |
@@ -522,7 +522,7 @@ Code-First:  Skill 내부에서 결정론적 단계를 최대화 (LLM 판단은 
 
 ## Context Reset 전략
 
-> 모델이 context window가 차오르면 **맥락 불안(context anxiety)**이 발생한다.
+> 모델이 context window가 차오르면 **맥락 불안** (context anxiety)이 발생한다.
 
 ### 증상
 
