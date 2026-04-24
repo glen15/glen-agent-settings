@@ -175,7 +175,7 @@ async function generateWithOpenAI(opts: GenerateOptions): Promise<GenerateResult
   if (!apiKey) throw new Error('OPENAI_API_KEY 환경변수가 필요합니다');
 
   const client = new OpenAI({ apiKey });
-  const model = 'gpt-image-1';
+  const model = 'gpt-image-2';
   const prompt = `${BASE_PROMPT}\n주제: ${opts.description}`;
 
   const size = openAiSize(opts.aspect);

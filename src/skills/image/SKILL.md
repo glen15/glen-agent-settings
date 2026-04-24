@@ -12,7 +12,7 @@ argument-hint: <"이미지 설명"> [--provider gemini|openai] [--quality standa
 | Provider | 모델 | 강점 |
 |---|---|---|
 | `gemini` (기본) | `gemini-3.1-flash-image-preview` | 빠름, 저렴, 한글 다이어그램 일반 품질 양호 |
-| `openai` | `gpt-image-1` | 프롬프트 충실도/텍스트 렌더링 우수, 투명 배경 지원 |
+| `openai` | `gpt-image-2` | 프롬프트 충실도/텍스트 렌더링 우수, 투명 배경 지원, reasoning 내장, 다국어 dense text, 최대 2K |
 
 ## 프로젝트 경로
 
@@ -70,8 +70,8 @@ npx tsx "${IMAGE_SKILL_DIR}/scripts/generate.ts" "__ARGS__"
 5. **top-level await 금지** — `tsx`는 기본 CJS 모드로 실행되어 top-level `await`가 `SyntaxError` 발생. 반드시 `async function main() { ... } main();` 패턴 사용. `.mjs` 래퍼는 임시방편이므로 금지.
 6. **외부 lib 의존 금지** — generate.ts가 `../../lib/contents-creator/`를 상대경로로 참조하면 배포 후 경로가 깨짐. deploy.sh가 lib/을 배포하지 않았고, SDK 버전도 불일치. 해결: generate.ts를 self-contained로 만들어 외부 의존 제거. (2026-03-30)
 7. **SDK 버전 주의** — `@google/generative-ai`(구)와 `@google/genai`(신)의 API가 다름. package.json과 import가 일치하는지 확인. openai SDK는 `6.x` 기준(`toFile`, `images.generate`, `images.edit`).
-8. **OpenAI organization verification** — `gpt-image-1`은 일부 조직에서 사전 verification이 필요. 403 `organization must be verified` 에러 시 OpenAI 대시보드 Settings → Organization → Verify Organization 수행. (2026-04-08)
-9. **gpt-image-1 비용 주의** — `quality=high` 호출은 Gemini 대비 10~50배 비쌈. 기본값은 `standard`(openai 내부 `medium`)로 고정. 대량 호출 시 quality 명시 확인.
+8. **OpenAI organization verification** — `gpt-image-2`(및 gpt-image-1)는 일부 조직에서 사전 verification이 필요. 403 `organization must be verified` 에러 시 OpenAI 대시보드 Settings → Organization → Verify Organization 수행. (2026-04-08)
+9. **gpt-image-2 비용 주의** — `quality=high` 호출은 Gemini 대비 10~50배 비쌈. 기본값은 `standard`(openai 내부 `medium`)로 고정. 대량 호출 시 quality 명시 확인. 2026-04-21 `gpt-image-1` → `gpt-image-2` 업그레이드 (Duct Tape 공식 릴리즈, reasoning·2K·다국어 dense text 지원).
 10. **transparent는 OpenAI 전용** — `--transparent` 플래그를 gemini와 같이 쓰면 경고 후 무시. 투명 PNG가 필요하면 반드시 `--provider openai`.
 11. **참조 이미지 MIME 타입** — `--reference`는 확장자로 mimeType 추론(png/jpg/webp/gif). 확장자 없는 파일은 png로 간주되므로 원본 확장자 유지 권장.
 12. **secret-scanner 훅 false positive** — `Edit`의 `new_string`에 기존 API 키 문자열(16자+ 영숫자)이 포함되면 훅이 차단. 해결: `new_string` 범위를 키 라인 밖으로 좁히거나 `Bash` append/`sed` in-place로 우회. (2026-04-08)
